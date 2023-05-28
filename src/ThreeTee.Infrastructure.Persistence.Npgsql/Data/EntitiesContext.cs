@@ -27,10 +27,31 @@ public class EntitiesContext : IdentityDbContext<ApplicationUser, IdentityRole<G
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        var systemTouchedBy = "System";
 
         var billingType = builder.Entity<BillingType>();
         billingType.HasIndex(e => e.Name);
         billingType.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+        billingType.HasData(new BillingType
+        {
+            Id = Guid.NewGuid(),
+            Name = "Upwork",
+            CreatedAt = DateTime.UtcNow,
+            LastTouchedBy = systemTouchedBy
+        }, new BillingType
+        {
+            Id = Guid.NewGuid(),
+            Name = "Wired",
+            CreatedAt = DateTime.UtcNow,
+            LastTouchedBy = systemTouchedBy
+        }, new BillingType
+        {
+            Id = Guid.NewGuid(),
+            Name = "Other",
+            CreatedAt = DateTime.UtcNow,
+            LastTouchedBy = systemTouchedBy
+        });
 
         var client = builder.Entity<Client>();
         client.HasIndex(e => e.Name);
@@ -40,9 +61,76 @@ public class EntitiesContext : IdentityDbContext<ApplicationUser, IdentityRole<G
         department.HasIndex(e => e.Name);
         department.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+        department.HasData(new Department
+        {
+            Id = Guid.NewGuid(),
+            Name = "Dotnet",
+            Code = ".net",
+            CreatedAt = DateTime.UtcNow,
+            LastTouchedBy = systemTouchedBy
+        }, new Department
+        {
+            Id = Guid.NewGuid(),
+            Name = "Quality Analyst",
+            Code = "QA",
+            CreatedAt = DateTime.UtcNow,
+            LastTouchedBy = systemTouchedBy
+        }, new Department
+        {
+            Id = Guid.NewGuid(),
+            Name = "Business Analyst",
+            Code = "BA",
+            CreatedAt = DateTime.UtcNow,
+            LastTouchedBy = systemTouchedBy
+        });
+
         var designation = builder.Entity<Designation>();
         designation.HasIndex(e => e.Name);
         designation.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+        designation.HasData(new Designation
+        {
+            Id = Guid.NewGuid(),
+            Name ="Junior Software Engineer",
+            CreatedAt = DateTime.UtcNow,
+            LastTouchedBy = systemTouchedBy
+        }, new Designation
+        {
+            Id = Guid.NewGuid(),
+            Name = "Software Engineer",
+            CreatedAt = DateTime.UtcNow,
+            LastTouchedBy = systemTouchedBy
+        }, new Designation
+        {
+            Id = Guid.NewGuid(),
+            Name = "Senior Software Engineer",
+            CreatedAt = DateTime.UtcNow,
+            LastTouchedBy = systemTouchedBy
+        }, new Designation
+        {
+            Id = Guid.NewGuid(),
+            Name = "Team Leader",
+            CreatedAt = DateTime.UtcNow,
+            LastTouchedBy = systemTouchedBy
+        }, new Designation
+        {
+            Id = Guid.NewGuid(),
+            Name = "Junior Business Analyst",
+            CreatedAt = DateTime.UtcNow,
+            LastTouchedBy = systemTouchedBy
+        }, new Designation
+        {
+            Id = Guid.NewGuid(),
+            Name = "Business Analyst",
+            CreatedAt = DateTime.UtcNow,
+            LastTouchedBy = systemTouchedBy
+        }, new Designation
+        {
+            Id = Guid.NewGuid(),
+            Name = "Senior Business Analyst",
+            CreatedAt = DateTime.UtcNow,
+            LastTouchedBy = systemTouchedBy
+        });
 
         var module = builder.Entity<Module>();
         module.HasIndex(e => e.Name);
@@ -55,7 +143,7 @@ public class EntitiesContext : IdentityDbContext<ApplicationUser, IdentityRole<G
         var project = builder.Entity<Project>();
         project.HasIndex(e => e.Name);
         project.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
-        
+
         var projectUser = builder.Entity<ProjectUser>();
         projectUser.HasKey(e => new { e.UserId, e.ProjectId });
         projectUser.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
@@ -64,7 +152,7 @@ public class EntitiesContext : IdentityDbContext<ApplicationUser, IdentityRole<G
         status.HasIndex(e => e.Description);
         status.HasIndex(e => e.DateFor);
         status.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
-        
+
         var userDepartment = builder.Entity<UserDepartment>();
         userDepartment.HasKey(e => new { e.UserId, e.DeparmentId });
         userDepartment.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");

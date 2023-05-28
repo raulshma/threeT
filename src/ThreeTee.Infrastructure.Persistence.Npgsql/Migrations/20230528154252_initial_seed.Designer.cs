@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ThreeTee.Infrastructure.Persistence.Npgsql.Data;
@@ -12,9 +13,11 @@ using ThreeTee.Infrastructure.Persistence.Npgsql.Data;
 namespace ThreeTee.Infrastructure.Persistence.Npgsql.Migrations
 {
     [DbContext(typeof(EntitiesContext))]
-    partial class EntitiesContextModelSnapshot : ModelSnapshot
+    [Migration("20230528154252_initial_seed")]
+    partial class initial_seed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
