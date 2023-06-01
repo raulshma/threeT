@@ -19,7 +19,6 @@ public class EntitiesContext : IdentityDbContext<ApplicationUser, IdentityRole<G
     public DbSet<Status> Statuses { get; set; }
     public DbSet<UserDepartment> UserDepartments { get; set; }
 
-
     public EntitiesContext(DbContextOptions options) : base(options)
     {
     }

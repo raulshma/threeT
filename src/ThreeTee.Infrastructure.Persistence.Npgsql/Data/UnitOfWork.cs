@@ -9,6 +9,9 @@ public class UnitOfWork : IDisposable, IUnitOfWork
     public UnitOfWork(EntitiesContext context) => _context = context;
 
     private GenericRepository<Project> projectRepository;
+    private GenericRepository<Department> departmentRepository;
+    private GenericRepository<Designation> designationRepository;
+    private GenericRepository<BillingType> billingTypeRepository;
 
     public IGenericRepository<Project> ProjectRepository
     {
@@ -19,6 +22,42 @@ public class UnitOfWork : IDisposable, IUnitOfWork
                 projectRepository = new GenericRepository<Project>(_context);
             }
             return projectRepository;
+        }
+    }
+
+    public IGenericRepository<Department> DepartmentRepository
+    {
+        get
+        {
+            if (departmentRepository == null)
+            {
+                departmentRepository = new GenericRepository<Department>(_context);
+            }
+            return departmentRepository;
+        }
+    }
+
+    public IGenericRepository<Designation> DesignationRepository
+    {
+        get
+        {
+            if (designationRepository == null)
+            {
+                designationRepository = new GenericRepository<Designation>(_context);
+            }
+            return designationRepository;
+        }
+    }
+
+    public IGenericRepository<BillingType> BillingTypeRepository
+    {
+        get
+        {
+            if (billingTypeRepository == null)
+            {
+                billingTypeRepository = new GenericRepository<BillingType>(_context);
+            }
+            return billingTypeRepository;
         }
     }
 

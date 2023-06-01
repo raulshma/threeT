@@ -27,6 +27,7 @@ builder.Services.AddDbContext<EntitiesContext>(options =>
 });
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IBillingTypeService, BillingTypeService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
