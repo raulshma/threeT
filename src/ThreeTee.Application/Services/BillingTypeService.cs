@@ -6,19 +6,19 @@ using ThreeTee.Core.Entities;
 namespace ThreeTee.Application.Services;
 public class BillingTypeService : IBillingTypeService
 {
-    private readonly IUnitOfWork _unitOfWork;
-    public BillingTypeService(IUnitOfWork unitOfWork)
+    private readonly IGenericRepository<BillingType> _repository;
+    public BillingTypeService(IGenericRepository<BillingType> repository)
     {
-        _unitOfWork = unitOfWork;
+        _repository = repository;
     }
 
     public async Task<IEnumerable<BillingTypeResponse>> GetAsync(Guid? id)
     {
         IEnumerable<BillingType>? items;
         if (id == null || id == Guid.Empty)
-            items = await _unitOfWork.BillingTypeRepository.GetAsync();
+            items = await _repository.GetAsync();
         else
-            items = await _unitOfWork.BillingTypeRepository.GetAsync(e => e.Id == id);
+            items = await _repository.GetAsync(e => e.Id == id);
         var mapper = new BillingTypeMapper();
         return mapper.BillingTypeToBillingTypeResponse(items);
     }

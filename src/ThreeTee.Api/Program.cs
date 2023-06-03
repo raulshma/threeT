@@ -5,6 +5,7 @@ using Microsoft.Identity.Web;
 using ThreeTee.Application.Interfaces;
 using ThreeTee.Application.Services;
 using ThreeTee.Infrastructure.Persistence.Npgsql.Data;
+using ThreeTee.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,9 +26,7 @@ builder.Services.AddDbContext<EntitiesContext>(options =>
     var connectionString = builder.Configuration.GetConnectionString("EntitiesContext");
     options.UseNpgsql(connectionString);
 });
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IProjectService, ProjectService>();
-builder.Services.AddScoped<IBillingTypeService, BillingTypeService>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

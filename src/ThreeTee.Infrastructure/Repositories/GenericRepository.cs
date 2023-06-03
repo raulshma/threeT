@@ -66,10 +66,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
             return await query.ToListAsync();
         }
     }
-    public virtual TEntity GetByID(object id)
-    {
-        return _dbSet.Find(id);
-    }
+    public virtual TEntity GetByID(object id) => _dbSet.Find(id);
 
     public virtual void Insert(TEntity entity)
     {
@@ -99,5 +96,15 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     {
         _dbSet.Attach(entityToUpdate);
         _context.Entry(entityToUpdate).State = EntityState.Modified;
+    }
+
+    public virtual async Task<int> SaveChangesAsync()
+    {
+        return await _context.SaveChangesAsync();
+    }
+
+    public virtual int SaveChanges()
+    {
+        return _context.SaveChanges();
     }
 }

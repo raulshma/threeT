@@ -11,4 +11,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
     void Insert(TEntity entity);
     Task<TEntity> InsertAsync(TEntity entity);
     void Update(TEntity entityToUpdate);
+
+    Task<int> SaveChangesAsync();
+    int SaveChanges();
 }
