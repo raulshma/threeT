@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.Identity.Web;
 using ThreeTee.Application.Interfaces;
-using ThreeTee.Application.Services;
+using ThreeTee.Application.Extension;
 using ThreeTee.Infrastructure.Persistence.Npgsql.Data;
 using ThreeTee.Infrastructure.Repositories;
 
@@ -21,12 +19,13 @@ builder.Services.AddDistributedRedisCache(option =>
 {
     option.Configuration = builder.Configuration["Redis"];
 });
-builder.Services.AddDbContext<EntitiesContext>(options =>
+builder.Services.AddDbContext<DbContext, EntitiesContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("EntitiesContext");
     options.UseNpgsql(connectionString);
 });
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddApplicationServices();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
