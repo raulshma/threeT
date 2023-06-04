@@ -39,9 +39,12 @@ public static class Extensions
             {
                 // Enable the token endpoint.
                 options.SetTokenEndpointUris("connect/token");
+                options.SetAuthorizationEndpointUris("/connect/authorize");
 
                 // Enable the client credentials flow.
                 options.AllowClientCredentialsFlow()
+                        .AllowImplicitFlow()
+                        .AllowAuthorizationCodeFlow()
                         .AllowPasswordFlow()
                         .AllowRefreshTokenFlow();
 
@@ -55,7 +58,9 @@ public static class Extensions
 
                 // Register the ASP.NET Core host and configure the ASP.NET Core options.
                 options.UseAspNetCore()
-                       .EnableTokenEndpointPassthrough();
+                       .EnableTokenEndpointPassthrough()
+                       .EnableLogoutEndpointPassthrough()
+                       .EnableAuthorizationEndpointPassthrough();
             })
             .AddValidation(options =>
             {

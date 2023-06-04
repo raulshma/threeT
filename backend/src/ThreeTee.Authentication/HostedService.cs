@@ -19,13 +19,15 @@ public class Worker : IHostedService
 
         var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
 
-        if (await manager.FindByClientIdAsync("apiserver") is null)
+
+        var app = await manager.FindByClientIdAsync("threet-app");
+
+        if (app is null)
         {
             await manager.CreateAsync(new OpenIddictApplicationDescriptor
             {
-                ClientId = "apiserver",
-                ClientSecret = "388D45FA-B36B-4988-BA59-B187D329C207",
-                DisplayName = "API Server",
+                ClientId = "threet-app",
+                DisplayName = "ThreeT Boom",
                 Permissions =
                 {
                     Permissions.Endpoints.Token,
@@ -38,17 +40,25 @@ public class Worker : IHostedService
                     Permissions.Scopes.Profile,
                     Permissions.Scopes.Email,
                     Permissions.Scopes.Address,
+                    Permissions.ResponseTypes.Code,
                     Permissions.ResponseTypes.Token,
-                    Permissions.ResponseTypes.CodeIdToken,
                     Permissions.ResponseTypes.CodeIdToken,
                     Permissions.ResponseTypes.IdTokenToken,
                     Permissions.ResponseTypes.IdToken,
                     Permissions.GrantTypes.ClientCredentials,
+                    Permissions.GrantTypes.AuthorizationCode,
+                    Permissions.GrantTypes.Implicit,
                     Permissions.GrantTypes.RefreshToken,
                     Permissions.GrantTypes.Password,
-                    Permissions.Prefixes.Scope + "Authentication"
-                }
+                    Permissions.Prefixes.Scope + "ThreeTApp"
+                },
+                RedirectUris = { new Uri("http://localhost:3000"), new Uri("http://localhost:3000/api/auth/callback/threet") }
             });
+        }
+        else
+        {
+            //remove the app on start
+            //await manager.DeleteAsync(app);
         }
     }
 
