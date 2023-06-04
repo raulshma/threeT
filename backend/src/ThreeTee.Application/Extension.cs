@@ -10,6 +10,7 @@ public static class Extension
     {
         services.AddScoped<IProjectService, ProjectService>();
         services.AddScoped<IBillingTypeService, BillingTypeService>();
+        services.AddScoped<IClientService, ClientService>();
         return services;
     }
 }

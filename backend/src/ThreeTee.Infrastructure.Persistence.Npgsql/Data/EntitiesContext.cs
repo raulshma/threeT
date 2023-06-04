@@ -28,27 +28,29 @@ public class EntitiesContext : IdentityDbContext<ApplicationUser, IdentityRole<G
         base.OnModelCreating(builder);
         var systemTouchedBy = "System";
 
+        var createdAt = DateTime.SpecifyKind(DateTime.Parse("2023-06-04T16:55:44.501Z"), DateTimeKind.Utc);
+
         var billingType = builder.Entity<BillingType>();
         billingType.HasIndex(e => e.Name);
         billingType.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
 
         billingType.HasData(new BillingType
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("dc53bb89-bb11-449b-96c2-5c7ac4d4bcd2"),
             Name = "Upwork",
-            CreatedAt = DateTime.UtcNow,
+            CreatedAt = createdAt,
             LastTouchedBy = systemTouchedBy
         }, new BillingType
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("2fded05b-635f-4889-b263-6ec1922d95fb"),
             Name = "Wired",
-            CreatedAt = DateTime.UtcNow,
+            CreatedAt = createdAt,
             LastTouchedBy = systemTouchedBy
         }, new BillingType
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("6e6027f9-f685-47c8-a1fe-43c32a620014"),
             Name = "Other",
-            CreatedAt = DateTime.UtcNow,
+            CreatedAt = createdAt,
             LastTouchedBy = systemTouchedBy
         });
 
@@ -62,24 +64,24 @@ public class EntitiesContext : IdentityDbContext<ApplicationUser, IdentityRole<G
 
         department.HasData(new Department
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("e5c7e9ec-d1c2-441d-a4dc-253cdf766707"),
             Name = "Dotnet",
             Code = ".net",
-            CreatedAt = DateTime.UtcNow,
+            CreatedAt = createdAt,
             LastTouchedBy = systemTouchedBy
         }, new Department
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("53691279-ef76-4054-8c2f-e28f6028f16d"),
             Name = "Quality Analyst",
             Code = "QA",
-            CreatedAt = DateTime.UtcNow,
+            CreatedAt = createdAt,
             LastTouchedBy = systemTouchedBy
         }, new Department
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("143b0f1f-beb6-4e6b-a26b-1dd307dd6306"),
             Name = "Business Analyst",
             Code = "BA",
-            CreatedAt = DateTime.UtcNow,
+            CreatedAt = createdAt,
             LastTouchedBy = systemTouchedBy
         });
 
@@ -89,45 +91,45 @@ public class EntitiesContext : IdentityDbContext<ApplicationUser, IdentityRole<G
 
         designation.HasData(new Designation
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("a0b3df08-e63a-4914-a576-6287a940b035"),
             Name ="Junior Software Engineer",
-            CreatedAt = DateTime.UtcNow,
+            CreatedAt = createdAt,
             LastTouchedBy = systemTouchedBy
         }, new Designation
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("6955c5b0-dadf-41bf-b616-28cf1dea7129"),
             Name = "Software Engineer",
-            CreatedAt = DateTime.UtcNow,
+            CreatedAt = createdAt,
             LastTouchedBy = systemTouchedBy
         }, new Designation
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("dfc436f4-d875-42fc-bb43-569d82dda847"),
             Name = "Senior Software Engineer",
-            CreatedAt = DateTime.UtcNow,
+            CreatedAt = createdAt,
             LastTouchedBy = systemTouchedBy
         }, new Designation
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("6db98ad2-61e3-45f9-93ea-fe8af7fdd44b"),
             Name = "Team Leader",
-            CreatedAt = DateTime.UtcNow,
+            CreatedAt = createdAt,
             LastTouchedBy = systemTouchedBy
         }, new Designation
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("5ecc925e-f3d8-4152-8d0a-440e3bb03b17"),
             Name = "Junior Business Analyst",
-            CreatedAt = DateTime.UtcNow,
+            CreatedAt = createdAt,
             LastTouchedBy = systemTouchedBy
         }, new Designation
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("7ef46b11-e30f-4311-a358-e9d95994ae67"),
             Name = "Business Analyst",
-            CreatedAt = DateTime.UtcNow,
+            CreatedAt = createdAt,
             LastTouchedBy = systemTouchedBy
         }, new Designation
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("d39fe1e8-fc62-405e-8c04-5539f141dbb2"),
             Name = "Senior Business Analyst",
-            CreatedAt = DateTime.UtcNow,
+            CreatedAt = createdAt,
             LastTouchedBy = systemTouchedBy
         });
 

@@ -469,22 +469,22 @@ namespace ThreeTee.Infrastructure.Persistence.Npgsql.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5b979829-86f8-474e-acf5-2544dca413af"),
-                            CreatedAt = new DateTime(2023, 5, 28, 15, 42, 52, 85, DateTimeKind.Utc).AddTicks(7622),
+                            Id = new Guid("dc53bb89-bb11-449b-96c2-5c7ac4d4bcd2"),
+                            CreatedAt = new DateTime(2023, 6, 4, 22, 25, 44, 501, DateTimeKind.Utc),
                             LastTouchedBy = "System",
                             Name = "Upwork"
                         },
                         new
                         {
-                            Id = new Guid("f2c53fc7-479d-4ef4-b5f8-714ba2202bc6"),
-                            CreatedAt = new DateTime(2023, 5, 28, 15, 42, 52, 85, DateTimeKind.Utc).AddTicks(7626),
+                            Id = new Guid("2fded05b-635f-4889-b263-6ec1922d95fb"),
+                            CreatedAt = new DateTime(2023, 6, 4, 22, 25, 44, 501, DateTimeKind.Utc),
                             LastTouchedBy = "System",
                             Name = "Wired"
                         },
                         new
                         {
-                            Id = new Guid("39eaa6cd-ea93-40c8-a1fc-292eaa24bc10"),
-                            CreatedAt = new DateTime(2023, 5, 28, 15, 42, 52, 85, DateTimeKind.Utc).AddTicks(7627),
+                            Id = new Guid("6e6027f9-f685-47c8-a1fe-43c32a620014"),
+                            CreatedAt = new DateTime(2023, 6, 4, 22, 25, 44, 501, DateTimeKind.Utc),
                             LastTouchedBy = "System",
                             Name = "Other"
                         });
@@ -499,7 +499,7 @@ namespace ThreeTee.Infrastructure.Persistence.Npgsql.Migrations
                     b.Property<Guid>("BillingTypeId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("BoardedBy")
+                    b.Property<Guid>("BoardedById")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("BoardedOn")
@@ -526,16 +526,13 @@ namespace ThreeTee.Infrastructure.Persistence.Npgsql.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BillingTypeId");
 
-                    b.HasIndex("Name");
+                    b.HasIndex("BoardedById");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("Name");
 
                     b.ToTable("Clients");
                 });
@@ -574,25 +571,25 @@ namespace ThreeTee.Infrastructure.Persistence.Npgsql.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("89d7f12f-a551-4db1-b616-76d9255ce520"),
+                            Id = new Guid("e5c7e9ec-d1c2-441d-a4dc-253cdf766707"),
                             Code = ".net",
-                            CreatedAt = new DateTime(2023, 5, 28, 15, 42, 52, 85, DateTimeKind.Utc).AddTicks(8542),
+                            CreatedAt = new DateTime(2023, 6, 4, 22, 25, 44, 501, DateTimeKind.Utc),
                             LastTouchedBy = "System",
                             Name = "Dotnet"
                         },
                         new
                         {
-                            Id = new Guid("3e0dae9c-e4b2-4e51-89a7-62e66f6c869a"),
+                            Id = new Guid("53691279-ef76-4054-8c2f-e28f6028f16d"),
                             Code = "QA",
-                            CreatedAt = new DateTime(2023, 5, 28, 15, 42, 52, 85, DateTimeKind.Utc).AddTicks(8544),
+                            CreatedAt = new DateTime(2023, 6, 4, 22, 25, 44, 501, DateTimeKind.Utc),
                             LastTouchedBy = "System",
                             Name = "Quality Analyst"
                         },
                         new
                         {
-                            Id = new Guid("8f6f94db-6181-417e-b8f5-94f9f1cfbca3"),
+                            Id = new Guid("143b0f1f-beb6-4e6b-a26b-1dd307dd6306"),
                             Code = "BA",
-                            CreatedAt = new DateTime(2023, 5, 28, 15, 42, 52, 85, DateTimeKind.Utc).AddTicks(8546),
+                            CreatedAt = new DateTime(2023, 6, 4, 22, 25, 44, 501, DateTimeKind.Utc),
                             LastTouchedBy = "System",
                             Name = "Business Analyst"
                         });
@@ -658,50 +655,50 @@ namespace ThreeTee.Infrastructure.Persistence.Npgsql.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("fb47d5b0-c6b6-4be7-887d-5cc39fa7c1ca"),
-                            CreatedAt = new DateTime(2023, 5, 28, 15, 42, 52, 85, DateTimeKind.Utc).AddTicks(8882),
+                            Id = new Guid("a0b3df08-e63a-4914-a576-6287a940b035"),
+                            CreatedAt = new DateTime(2023, 6, 4, 22, 25, 44, 501, DateTimeKind.Utc),
                             LastTouchedBy = "System",
                             Name = "Junior Software Engineer"
                         },
                         new
                         {
-                            Id = new Guid("b25e25ee-5719-4291-be18-803bba6d277a"),
-                            CreatedAt = new DateTime(2023, 5, 28, 15, 42, 52, 85, DateTimeKind.Utc).AddTicks(8884),
+                            Id = new Guid("6955c5b0-dadf-41bf-b616-28cf1dea7129"),
+                            CreatedAt = new DateTime(2023, 6, 4, 22, 25, 44, 501, DateTimeKind.Utc),
                             LastTouchedBy = "System",
                             Name = "Software Engineer"
                         },
                         new
                         {
-                            Id = new Guid("e1010c78-3a8f-40aa-bcbb-06af34da27bf"),
-                            CreatedAt = new DateTime(2023, 5, 28, 15, 42, 52, 85, DateTimeKind.Utc).AddTicks(8889),
+                            Id = new Guid("dfc436f4-d875-42fc-bb43-569d82dda847"),
+                            CreatedAt = new DateTime(2023, 6, 4, 22, 25, 44, 501, DateTimeKind.Utc),
                             LastTouchedBy = "System",
                             Name = "Senior Software Engineer"
                         },
                         new
                         {
-                            Id = new Guid("847a84d3-e10c-4e8a-bdde-d4d3e714c0d9"),
-                            CreatedAt = new DateTime(2023, 5, 28, 15, 42, 52, 85, DateTimeKind.Utc).AddTicks(8891),
+                            Id = new Guid("6db98ad2-61e3-45f9-93ea-fe8af7fdd44b"),
+                            CreatedAt = new DateTime(2023, 6, 4, 22, 25, 44, 501, DateTimeKind.Utc),
                             LastTouchedBy = "System",
                             Name = "Team Leader"
                         },
                         new
                         {
-                            Id = new Guid("16d092d1-3ca9-4e79-a8bd-779c65c861c5"),
-                            CreatedAt = new DateTime(2023, 5, 28, 15, 42, 52, 85, DateTimeKind.Utc).AddTicks(8892),
+                            Id = new Guid("5ecc925e-f3d8-4152-8d0a-440e3bb03b17"),
+                            CreatedAt = new DateTime(2023, 6, 4, 22, 25, 44, 501, DateTimeKind.Utc),
                             LastTouchedBy = "System",
                             Name = "Junior Business Analyst"
                         },
                         new
                         {
-                            Id = new Guid("df9f5101-6b25-40c9-9458-2673c91b86a3"),
-                            CreatedAt = new DateTime(2023, 5, 28, 15, 42, 52, 85, DateTimeKind.Utc).AddTicks(8893),
+                            Id = new Guid("7ef46b11-e30f-4311-a358-e9d95994ae67"),
+                            CreatedAt = new DateTime(2023, 6, 4, 22, 25, 44, 501, DateTimeKind.Utc),
                             LastTouchedBy = "System",
                             Name = "Business Analyst"
                         },
                         new
                         {
-                            Id = new Guid("dfed32cb-d856-429e-8314-799e8aa509c6"),
-                            CreatedAt = new DateTime(2023, 5, 28, 15, 42, 52, 85, DateTimeKind.Utc).AddTicks(8895),
+                            Id = new Guid("d39fe1e8-fc62-405e-8c04-5539f141dbb2"),
+                            CreatedAt = new DateTime(2023, 6, 4, 22, 25, 44, 501, DateTimeKind.Utc),
                             LastTouchedBy = "System",
                             Name = "Senior Business Analyst"
                         });
@@ -1039,15 +1036,15 @@ namespace ThreeTee.Infrastructure.Persistence.Npgsql.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ThreeTee.Core.Entities.ApplicationUser", "User")
+                    b.HasOne("ThreeTee.Core.Entities.ApplicationUser", "BoardedBy")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("BoardedById")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("BillingType");
 
-                    b.Navigation("User");
+                    b.Navigation("BoardedBy");
                 });
 
             modelBuilder.Entity("ThreeTee.Core.Entities.DepartmentManager", b =>
