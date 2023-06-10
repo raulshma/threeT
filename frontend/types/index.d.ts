@@ -1,7 +1,7 @@
 import { User } from "@prisma/client";
 import * as z from "zod";
 import type { Icon } from "lucide-react";
-import { ProjectSchema } from "@/schema";
+import { ProjectSchema, ClientFormSchema } from "@/schema";
 import { Icons } from "@/components/icons";
 
 export type NavItem = {
@@ -53,22 +53,9 @@ export type DashboardConfig = {
   sidebarNav: SidebarNavItem[];
 };
 
-export type Client = {
-  name: string;
-  boardedOn?: Date;
-  boardedById?: string;
-  country?: string;
-  isActive?: boolean;
-  billingTypeId?: string;
-  id: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  lastTouchedBy?: string;
-};
-
 export type BillingType = {
   id: string;
   name: string;
 };
-
+export type Client = z.infer<typeof ClientFormSchema>;
 export type Project = z.infer<typeof ProjectSchema>;

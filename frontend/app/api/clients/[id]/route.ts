@@ -1,8 +1,9 @@
 import { getServerSession } from "next-auth";
 import * as z from "zod";
 
+import { ApiClient } from "@/lib/client";
 import { authOptions } from "@/lib/auth";
-import { deleteProject } from "@/lib/client";
+import { resourceNameClient } from "../route";
 
 const routeContextSchema = z.object({
   params: z.object({
@@ -23,7 +24,7 @@ export async function DELETE(
     // Validate the route params.
     const { params } = routeContextSchema.parse(context);
 
-    await deleteProject(params.id);
+    await ApiClient.DELETE(resourceNameClient, params.id);
 
     return new Response(null, { status: 204 });
   } catch (error) {

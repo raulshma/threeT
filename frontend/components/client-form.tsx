@@ -30,20 +30,18 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar } from "./ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
-import { ProjectSchema } from "@/schema";
-import { redirect, useRouter } from "next/navigation";
+import { ClientFormSchema } from "@/schema";
+import { useRouter } from "next/navigation";
+import { Checkbox } from "./ui/checkbox";
 import { ToastAction } from "./ui/toast";
 
-export const formSchema = ProjectSchema;
 interface ProjectFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  project?: Project;
-  clients?: Client[];
+  client?: Client;
   billingTypes?: BillingType[];
 }
 
-export function ProjectForm({
-  project,
-  clients,
+export function ClientForm({
+  client,
   billingTypes,
   className,
   ...props
@@ -51,50 +49,51 @@ export function ProjectForm({
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof ClientFormSchema>>({
+    resolver: zodResolver(ClientFormSchema),
     defaultValues: {
-      id: project?.id ?? undefined,
-      billingPrice: project?.billingPrice ?? 16,
-      clientId: project?.clientId ?? undefined,
-      name: project?.name ?? undefined,
-      startDate: project?.startDate ? new Date(project.startDate) : undefined,
-      endDate: project?.endDate ? new Date(project.endDate) : undefined,
+      id: client?.id ?? undefined,
+      billingTypeId: client?.billingTypeId,
+      boardedById: client?.boardedById ?? undefined,
+      boardedOn: client?.boardedOn ? new Date(client.boardedOn) : undefined,
+      country: client?.country ?? "India",
+      isActive: client?.isActive ?? true,
+      name: client?.name ?? undefined,
     },
   });
 
-  async function onSubmit(event: z.infer<typeof formSchema>) {
+  async function onSubmit(event: z.infer<typeof ClientFormSchema>) {
     setIsLoading(!isLoading);
     console.log(event);
 
     let submitType = event.id ? "PUT" : "POST";
 
     try {
-      var result = await fetch("/api/projects", {
+      var result = await fetch("/api/clients", {
         method: submitType,
         body: JSON.stringify(event),
       });
-      if (result) {
+      if (result.ok) {
         router.refresh();
         return toast({
           title: "Success.",
           action: (
             <ToastAction
-              altText="Goto projects list"
-              onClick={() => router.push("/dashboard/projects")}
+              altText="Goto clients list"
+              onClick={() => router.push("/dashboard/clients")}
             >
-              Goto projects
+              Goto clients
             </ToastAction>
           ),
-          description: `Project ${
+          description: `Client ${
             submitType === "PUT" ? "updated" : "saved"
-          } successfully.`,
+          } successfully onboarded.`,
           variant: "default",
         });
       } else {
         toast({
           title: "Something went wrong.",
-          description: "Project was not created. Please try again.",
+          description: "Client was not created. Please try again.",
           variant: "destructive",
         });
       }
@@ -117,29 +116,28 @@ export function ProjectForm({
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Enter project name" {...field} />
+                <Input placeholder="Enter client name" {...field} />
               </FormControl>
-              <FormDescription>This is project public name.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name="clientId"
+          name="billingTypeId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Client</FormLabel>
+              <FormLabel>Billing type</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a client" />
+                    <SelectValue placeholder="Select billing type" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {clients?.map((client) => (
-                    <SelectItem value={client.id!} key={client.id}>
-                      {client.name}
+                  {billingTypes?.map((billingType) => (
+                    <SelectItem value={billingType.id} key={billingType.id}>
+                      {billingType.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -150,15 +148,12 @@ export function ProjectForm({
         />
         <FormField
           control={form.control}
-          name="billingPrice"
+          name="country"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Billing Price</FormLabel>
+              <FormLabel>Country</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Enter average/initial billing price"
-                  {...field}
-                />
+                <Input placeholder="Enter country name" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -166,10 +161,10 @@ export function ProjectForm({
         />
         <FormField
           control={form.control}
-          name="startDate"
+          name="boardedOn"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Start date</FormLabel>
+              <FormLabel>Boarding date</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -207,42 +202,19 @@ export function ProjectForm({
         />
         <FormField
           control={form.control}
-          name="endDate"
+          name="isActive"
           render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>End date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, "PPP")
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    // disabled={(date) =>
-                    //   date > new Date() || date < new Date("1900-01-01")
-                    // }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  title="Is active"
+                />
+              </FormControl>
+              <div className="space-y-1 leading-none">
+                <FormLabel>Is active</FormLabel>
+              </div>
             </FormItem>
           )}
         />
