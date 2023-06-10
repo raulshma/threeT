@@ -1,7 +1,7 @@
 import { User } from "@prisma/client";
 import * as z from "zod";
 import type { Icon } from "lucide-react";
-
+import { ProjectSchema } from "@/schema";
 import { Icons } from "@/components/icons";
 
 export type NavItem = {
