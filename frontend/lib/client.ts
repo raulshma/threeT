@@ -75,10 +75,28 @@ export const getBillingTypes = async () =>
 export const getProjects = async () => await Get<Project[]>("project");
 export const getProject = async (id: string) =>
   await Get<Project>("project", id);
-export const getClients = async () => await Get<Client[]>("client");
-
 export const postProject = async (body: Project) =>
   await Post<Project>("project", body);
 export const updateProject = async (body: Project) =>
   await Put<Project>("project", body);
 export const deleteProject = async (id: string) => await Delete("project", id);
+
+export const getClients = async () => await Get<Client[]>("client");
+export const postClient = async (body: Client) =>
+  await Post<Client>("project", body);
+export const updateClient = async (body: Project) =>
+  await Put<Project>("project", body);
+export const deleteClient = async (id: string) => await Delete("project", id);
+
+// Generic crud
+export const ApiClient = {
+  LIST: async <T>(resourceName: string): Promise<T> => await Get<T>(resourceName),
+  GET: async <T>(resourceName: string, id: string): Promise<T> =>
+    await Get<T>(resourceName, id),
+  POST: async <T>(resourceName: string, body: T): Promise<T> =>
+    await Post<T>(resourceName, body),
+  PUT: async <T>(resourceName: string, body: T): Promise<T> =>
+    await Put<T>(resourceName, body),
+  DELETE: async (resourceName: string, id: string): Promise<void> =>
+    await Delete(resourceName, id),
+};

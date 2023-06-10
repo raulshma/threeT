@@ -43,16 +43,18 @@ namespace ThreeTee.Api.Controllers
             return TypedResults.Created(ret.Id.ToString());
         }
 
-        //// PUT api/<ClientController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        [HttpPut]
+        public async Task<IResult> Put(ClientPutRequest request)
+        {
+            var item = await _clientService.UpdateAsync(request);
+            return TypedResults.Ok(item);
+        }
 
-        //// DELETE api/<ClientController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        [HttpDelete("{id}")]
+        public async Task<IResult> Delete(Guid id)
+        {
+            await _clientService.DeleteAsync(id);
+            return TypedResults.NoContent();
+        }
     }
 }

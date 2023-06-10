@@ -2,10 +2,10 @@ import { getServerSession } from "next-auth/next";
 import * as z from "zod";
 
 import { authOptions } from "@/lib/auth";
-import { postProject, updateProject } from "@/lib/client";
-import { ProjectSchema } from "@/schema";
+import { ApiClient } from "@/lib/client";
+import { ClientFormSchema } from "@/schema";
 
-const postCreateProject = ProjectSchema;
+export const resourceNameClient = "client";
 
 export async function POST(req: Request) {
   try {
@@ -15,17 +15,16 @@ export async function POST(req: Request) {
       return new Response("Unauthorized", { status: 403 });
     }
     const json = await req.json();
-    if (json.startDate) {
-      json.startDate = new Date(json.startDate);
+    if (json.boardedOn) {
+      json.boardedOn = new Date(json.boardedOn);
     }
-    if (json.endDate) {
-      json.endDate = new Date(json.endDate);
-    }
-    const body = postCreateProject.parse(json);
+    if (session.userId) json.boardedById = session.userId;
+    // json.updatedAt = new Date();
+    const body = ClientFormSchema.parse(json);
 
-    const project = await postProject(body);
+    const result = await ApiClient.POST(resourceNameClient, body);
 
-    return new Response(JSON.stringify(project));
+    return new Response(JSON.stringify(result));
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 });
@@ -41,18 +40,18 @@ export async function PUT(req: Request) {
     if (!session) {
       return new Response("Unauthorized", { status: 403 });
     }
+
     const json = await req.json();
     if (json.startDate) {
-      json.startDate = new Date(json.startDate);
+      json.boardedOn = new Date(json.boardedOn);
     }
-    if (json.endDate) {
-      json.endDate = new Date(json.endDate);
-    }
-    const body = postCreateProject.parse(json);
+    json.updatedAt = new Date();
 
-    const project = await updateProject(body);
+    const body = ClientFormSchema.parse(json);
 
-    return new Response(JSON.stringify(project));
+    const result = await ApiClient.PUT(resourceNameClient, body);
+
+    return new Response(JSON.stringify(result));
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 });
