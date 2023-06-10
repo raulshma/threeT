@@ -7,8 +7,10 @@ namespace ThreeTee.Application.Mappers;
 [Mapper]
 public partial class ProjectMapper
 {
-    public partial Project ProjectPostRequestToProject(ProjectPostRequest request);
-    public partial ProjectResponse ProjectToProjectResponse(Project project);
-    public partial IEnumerable<ProjectResponse> ProjectToProjectResponse(IEnumerable<Project> project);
+    public partial Project ToModel(ProjectPostRequest request);
+    public partial ProjectResponse ToDto(ProjectPutRequest request);
+    public partial Project ToModel(ProjectPutRequest request);
+    public partial ProjectResponse ToDto(Project project);
+    public partial IEnumerable<ProjectResponse> ToDto(IEnumerable<Project> project);
 }
 

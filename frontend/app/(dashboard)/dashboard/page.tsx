@@ -34,37 +34,13 @@ export default async function DashboardPage() {
     redirect(authOptions?.pages?.signIn || "/login");
   }
 
-  const items = await getBillingTypes();
-
   return (
     <DashboardShell>
       <DashboardHeader
         heading="ThreeT"
         text="Manage your work."
       ></DashboardHeader>
-      <div>
-        {items?.length ? (
-          <div className="divide-y divide-border rounded-md border">
-            {items.map((item: any, i: number) => (
-              <CardItem
-                key={item.id}
-                title={item.name}
-                id={String(item.id)}
-                createdAt={new Date()}
-              />
-            ))}
-          </div>
-        ) : (
-          <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon name="post" />
-            <EmptyPlaceholder.Title>No posts created</EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              You don&apos;t have any posts yet. Start creating content.
-            </EmptyPlaceholder.Description>
-            {/* <PostCreateButton variant="outline" /> */}
-          </EmptyPlaceholder>
-        )}
-      </div>
+      <div></div>
     </DashboardShell>
   );
 }

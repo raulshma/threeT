@@ -13,45 +13,48 @@ import {
 import { DashboardHeader } from "@/components/header";
 import { Icons } from "@/components/icons";
 import { DashboardShell } from "@/components/shell";
-import { getProjects } from "@/lib/client";
+import { getBillingTypes, getProjects } from "@/lib/client";
 import { CardItem } from "@/components/card";
 import { EmptyPlaceholder } from "@/components/empty-placeholder";
 import { ProjectForm } from "@/components/project-form";
 import { CreateButton } from "@/components/create-button";
 
 export const metadata = {
-  title: "Projects",
-  description: "Manage current and past projects.",
+  title: "Billing Types",
+  description: "Manage billing types.",
+  relativePath: "/dashboard/billing-types",
 };
 
-export default async function ProjectPage() {
+export default async function BillingTypesPage() {
   const user = await getCurrentUser();
 
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login");
   }
 
-  const projects = await getProjects();
+  const items = await getBillingTypes();
+
+  const titleLowered = metadata.title.toLowerCase();
 
   return (
     <DashboardShell>
-      <DashboardHeader
-        heading="Projects"
-        text="Manage current and past projects."
-      >
-        <CreateButton title="project" goto="/dashboard/projects/create" />
+      <DashboardHeader heading={metadata.title} text={metadata.description}>
+        <CreateButton
+          title={metadata.title}
+          goto={`${metadata.relativePath}/create`}
+        />
       </DashboardHeader>
       <div className="grid gap-8">
         <div>
-          {projects?.length ? (
+          {items?.length ? (
             <div className="divide-y divide-border rounded-md border">
-              {projects.map((item: any, i: number) => (
+              {items.map((item) => (
                 <CardItem
                   key={item.id}
                   title={item.name}
                   id={String(item.id)}
                   createdAt={new Date()}
-                  isFor="dashboard/projects"
+                  isFor={metadata.relativePath}
                 />
               ))}
             </div>
@@ -59,21 +62,16 @@ export default async function ProjectPage() {
             <EmptyPlaceholder>
               <EmptyPlaceholder.Icon name="post" />
               <EmptyPlaceholder.Title>
-                No projects created
+                No {titleLowered} created
               </EmptyPlaceholder.Title>
               <EmptyPlaceholder.Description>
-                You don&apos;t have any projects yet. Start creating projects.
+                You don&apos;t have any {titleLowered} yet. Start creating{" "}
+                {titleLowered}.
               </EmptyPlaceholder.Description>
               {/* <PostCreateButton variant="outline" /> */}
             </EmptyPlaceholder>
           )}
         </div>
-        {/* <ProjectForm
-          project={{
-            ...project,
-            isCanceled,
-          }}
-        /> */}
       </div>
     </DashboardShell>
   );

@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDate } from "@/lib/utils";
+import { CardOperations } from "./card-operations";
 
 interface CardItemProps {
   id: string;
@@ -16,11 +17,16 @@ export function CardItem({
   title,
   createdAt,
 }: CardItemProps) {
+  const linkUrl = isFor
+    ? isFor.startsWith("/")
+      ? isFor.substring(1)
+      : isFor
+    : "";
   return (
     <div className="flex items-center justify-between p-4">
       <div className="grid gap-1">
         <Link
-          href={`/${isFor ?? ""}/${id}`}
+          href={`/${linkUrl}/${id}`}
           className="font-semibold hover:underline"
         >
           {title}
@@ -31,6 +37,12 @@ export function CardItem({
           </p>
         </div>
       </div>
+      <CardOperations
+        id={id}
+        itemType="projects"
+        itemName="project"
+        editPath="dashboard/projects"
+      />
     </div>
   );
 }

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { BillingType, Client } from "@/types";
+import { BillingType, Client, Project } from "@/types";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
@@ -44,11 +44,13 @@ import { ProjectSchema } from "@/schema";
 // });
 export const formSchema = ProjectSchema;
 interface ProjectFormProps extends React.HTMLAttributes<HTMLFormElement> {
+  project?: Project;
   clients?: Client[];
   billingTypes?: BillingType[];
 }
 
 export function ProjectForm({
+  project,
   clients,
   billingTypes,
   className,
@@ -59,7 +61,12 @@ export function ProjectForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      billingPrice: 16,
+      id: project?.id ?? undefined,
+      billingPrice: project?.billingPrice ?? 16,
+      clientId: project?.clientId ?? undefined,
+      name: project?.name ?? undefined,
+      startDate: project?.startDate ? new Date(project.startDate) : undefined,
+      endDate: project?.endDate ? new Date(project.endDate) : undefined,
     },
   });
 
@@ -67,15 +74,19 @@ export function ProjectForm({
     setIsLoading(!isLoading);
     console.log(event);
 
+    let submitType = event.id ? "PUT" : "POST";
+
     try {
       var result = await fetch("/api/projects", {
-        method: "POST",
+        method: submitType,
         body: JSON.stringify(event),
       });
       if (result) {
         return toast({
           title: "Success.",
-          description: "Added project successfully.",
+          description: `Project ${
+            submitType === "PUT" ? "updated" : "saved"
+          } successfully.`,
           variant: "default",
         });
       }
@@ -177,9 +188,9 @@ export function ProjectForm({
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date("1900-01-01")
-                    }
+                    // disabled={(date) =>
+                    //   date > new Date() || date < new Date("1900-01-01")
+                    // }
                     initialFocus
                   />
                 </PopoverContent>
@@ -218,9 +229,9 @@ export function ProjectForm({
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date("1900-01-01")
-                    }
+                    // disabled={(date) =>
+                    //   date > new Date() || date < new Date("1900-01-01")
+                    // }
                     initialFocus
                   />
                 </PopoverContent>

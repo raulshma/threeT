@@ -5,6 +5,8 @@ namespace ThreeTee.Application.Interfaces;
 public interface IProjectService
 {
     Task<IEnumerable<ProjectResponse>> GetAsync(Guid? id);
-    Task<Project> InsertAsync(ProjectPostRequest request);
+    Task<ProjectResponse> InsertAsync(ProjectPostRequest request);
+    Task<ProjectResponse> UpdateAsync(ProjectPutRequest request);
+    Task DeleteAsync(Guid id);
 }
 
