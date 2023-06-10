@@ -7,13 +7,22 @@ interface CardItemProps {
   id: string;
   title: string;
   createdAt: Date;
+  isFor?: string;
 }
 
-export function CardItem({ id, title, createdAt }: CardItemProps) {
+export function CardItem({
+  id,
+  isFor = "project",
+  title,
+  createdAt,
+}: CardItemProps) {
   return (
     <div className="flex items-center justify-between p-4">
       <div className="grid gap-1">
-        <Link href={`/editor/${id}`} className="font-semibold hover:underline">
+        <Link
+          href={`/${isFor ?? ""}/${id}`}
+          className="font-semibold hover:underline"
+        >
           {title}
         </Link>
         <div>

@@ -2,19 +2,10 @@
 
 import * as React from "react";
 
-import { BillingType, Client, Project } from "@/types";
-import { cn, formatDate } from "@/lib/utils";
-import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { BillingType, Client } from "@/types";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
-import { Icons } from "@/components/icons";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -39,8 +30,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar } from "./ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
-import { postProject } from "@/lib/client";
 import { redirect } from "next/navigation";
+import { ProjectSchema } from "@/schema";
 
 // const formSchema = z.object({
 //   name: z.string(),
@@ -51,13 +42,7 @@ import { redirect } from "next/navigation";
 //   billingTypeId: z.string(),
 //   lastTouchedBy: z.string(),
 // });
-const formSchema = z.object({
-  name: z.string(),
-  startDate: z.date(),
-  endDate: z.date().optional(),
-  billingPrice: z.number().optional(),
-  clientId: z.string(),
-});
+export const formSchema = ProjectSchema;
 interface ProjectFormProps extends React.HTMLAttributes<HTMLFormElement> {
   clients?: Client[];
   billingTypes?: BillingType[];
@@ -83,7 +68,10 @@ export function ProjectForm({
     console.log(event);
 
     try {
-      var result = await postProject(event as Project);
+      var result = await fetch("/api/projects", {
+        method: "POST",
+        body: JSON.stringify(event),
+      });
       if (result) {
         return toast({
           title: "Success.",
@@ -94,24 +82,6 @@ export function ProjectForm({
     } catch (ex) {
       console.log(ex);
     }
-    // Get a Stripe session URL.
-    // const response = await fetch("/api/users/stripe");
-
-    // if (!response?.ok) {
-    //   return toast({
-    //     title: "Something went wrong.",
-    //     description: "Please refresh the page and try again.",
-    //     variant: "destructive",
-    //   });
-    // }
-
-    // // Redirect to the Stripe session.
-    // // This could be a checkout page for initial upgrade.
-    // // Or portal to manage existing subscription.
-    // const session = await response.json();
-    // if (session) {
-    //   window.location.href = session.url;
-    // }
   }
 
   return (
