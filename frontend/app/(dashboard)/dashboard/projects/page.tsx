@@ -49,8 +49,9 @@ export default async function ProjectPage() {
                 <CardItem
                   key={item.id}
                   title={item.name}
-                  id={String(i)}
+                  id={String(item.id)}
                   createdAt={new Date()}
+                  isFor="projects/create"
                 />
               ))}
             </div>

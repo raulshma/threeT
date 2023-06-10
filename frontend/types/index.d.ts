@@ -1,4 +1,5 @@
 import { User } from "@prisma/client";
+import * as z from "zod";
 import type { Icon } from "lucide-react";
 
 import { Icons } from "@/components/icons";
@@ -70,10 +71,4 @@ export type BillingType = {
   name: string;
 };
 
-export type Project = {
-  name: string;
-  startDate: Date;
-  endDate?: Date;
-  billingPrice: number;
-  clientId: string;
-};
+export type Project = z.infer<typeof ProjectSchema>;

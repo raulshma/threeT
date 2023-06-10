@@ -7,6 +7,7 @@ import { DashboardHeader } from "@/components/header";
 import { CardItem } from "@/components/card";
 import { DashboardShell } from "@/components/shell";
 import { getResouceUrl } from "@/lib/utils";
+import { BillingType } from "@/types";
 
 export const metadata = {
   title: "Dashboard",
@@ -22,7 +23,7 @@ export const getBillingTypes = async () => {
   });
   if (response.ok) {
     var items = await response.json();
-    return items;
+    return items as BillingType[];
   }
 };
 
@@ -48,7 +49,7 @@ export default async function DashboardPage() {
               <CardItem
                 key={item.id}
                 title={item.name}
-                id={String(i)}
+                id={String(item.id)}
                 createdAt={new Date()}
               />
             ))}
