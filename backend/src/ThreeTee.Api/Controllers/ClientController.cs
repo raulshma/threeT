@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ThreeTee.Application.Interfaces;
 using ThreeTee.Application.Models.Clients;
 
@@ -8,6 +9,7 @@ namespace ThreeTee.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;

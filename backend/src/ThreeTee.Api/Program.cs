@@ -1,16 +1,25 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using ThreeTee.Application.Interfaces;
 using ThreeTee.Application.Extension;
 using ThreeTee.Infrastructure.Persistence.Npgsql.Data;
 using ThreeTee.Infrastructure.Repositories;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddProblemDetails();
 // Add services to the container.
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer();
+var connectionString = builder.Configuration.GetConnectionString("EntitiesContext");
+
+builder.Services.AddAuthentication()
+                .AddJwtBearer(config =>
+                {
+                    config.TokenValidationParameters.ValidateAudience = false;
+                    config.TokenValidationParameters.ValidateIssuerSigningKey = false;
+                    config.TokenValidationParameters.ValidateLifetime = true;
+                    config.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(connectionString!.Substring(0, 32)));
+                });
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -21,7 +30,6 @@ builder.Services.AddDistributedRedisCache(option =>
 });
 builder.Services.AddDbContext<DbContext, EntitiesContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("EntitiesContext");
     options.UseNpgsql(connectionString);
 });
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

@@ -1,17 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using ThreeTee.Infrastructure.Persistence.Npgsql.Data;
-using OpenIddict.Validation;
-using OpenIddict.Abstractions;
-using OpenIddict.Server.AspNetCore;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 using Microsoft.AspNetCore.Identity;
 using ThreeTee.Core.Entities;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ThreeTee.Infrastructure.Identity;
 public static class Extensions
@@ -52,9 +46,15 @@ public static class Extensions
 
                 options.RegisterScopes(Scopes.OfflineAccess, Scopes.OpenId, Scopes.Profile, Scopes.Email, Scopes.Phone, Scopes.Address, Scopes.Roles);
 
+                options.DisableAccessTokenEncryption();
+
                 // Register the signing and encryption credentials.
-                options.AddDevelopmentEncryptionCertificate()
-                       .AddDevelopmentSigningCertificate();
+                //options.AddDevelopmentEncryptionCertificate()
+                //.AddDevelopmentSigningCertificate();
+                options.AddEphemeralSigningKey();
+                var keyBytes = Encoding.UTF8.GetBytes(connectionString.Substring(0, 32));
+                options.AddEncryptionKey(new SymmetricSecurityKey(keyBytes));
+                options.AddSigningKey(new SymmetricSecurityKey(keyBytes));
 
                 // Register the ASP.NET Core host and configure the ASP.NET Core options.
                 options.UseAspNetCore()

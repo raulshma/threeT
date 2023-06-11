@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using ThreeTee.Application.Interfaces;
 
@@ -8,6 +9,7 @@ namespace ThreeTee.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BillingTypeController : ControllerBase
     {
         private readonly IBillingTypeService _billingTypeService;
