@@ -26,6 +26,9 @@ export const authOptions: NextAuthOptions = {
           scope: "openid profile email offline_access",
         },
       },
+      httpOptions: {
+        timeout: 15000,
+      },
       clientId: "threet-app",
       profile(profile) {
         return {
@@ -56,5 +59,5 @@ export const authOptions: NextAuthOptions = {
   },
   events: {},
   // Enable debug messages in the console if you are having problems
-  debug: false,
+  debug: true,
 };
