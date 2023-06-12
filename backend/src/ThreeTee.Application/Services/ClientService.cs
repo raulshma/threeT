@@ -57,7 +57,7 @@ namespace ThreeTee.Application.Services
         {
             var result = await _repository.UpdateAsync(_mapper.ToEntity(request));
             await _repository.SaveChangesAsync();
-            return _mapper.ToResponse(result);
+            return _mapper.ToDto(result);
         }
     }
 }
