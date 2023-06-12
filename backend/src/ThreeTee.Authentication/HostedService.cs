@@ -57,13 +57,15 @@ public class Worker : IHostedService
                     new Uri("http://localhost:3000/api/auth/callback/threet"),
                     new Uri("https://three-t.vercel.app"),
                     new Uri("https://three-t.vercel.app/api/auth/callback/threet"),
+                    new Uri("https://threetee.online"),
+                    new Uri("https://threetee.online/api/auth/callback/threet"),
                 }
             });
         }
         else
         {
             //remove the app on start
-            await manager.DeleteAsync(app);
+            //await manager.DeleteAsync(app);
         }
     }
 
