@@ -38,5 +38,12 @@ namespace ThreeTee.Application.Services
             await _repository.SaveChangesAsync();
             return _mapper.ToResponse(result);
         }
+
+        public async Task<ClientResponse?> Update(ClientPutRequest request)
+        {
+            var result = await _repository.UpdateAsync(_mapper.ToEntity(request));
+            await _repository.SaveChangesAsync();
+            return _mapper.ToResponse(result);
+        }
     }
 }

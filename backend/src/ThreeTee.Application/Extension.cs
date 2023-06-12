@@ -11,6 +11,7 @@ public static class Extension
         services.AddScoped<IProjectService, ProjectService>();
         services.AddScoped<IBillingTypeService, BillingTypeService>();
         services.AddScoped<IClientService, ClientService>();
+        services.AddScoped<IStatusService, StatusService>();
         return services;
     }
 }

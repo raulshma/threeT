@@ -43,16 +43,19 @@ namespace ThreeTee.Api.Controllers
             return TypedResults.Created(ret.Id.ToString());
         }
 
-        //// PUT api/<ClientController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        //// DELETE api/<ClientController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        // PUT api/<ClientController>
+        [HttpPut]
+        public async Task<IResult> Put([FromBody] ClientPutRequest value)
+        {
+            var ret = await _clientService.Update(value);
+            if (ret != null)
+            {
+                //DateTimeOffset currentDateTime = DateTimeOffset.Now;
+                //string formattedDateTime = currentDateTime.ToString("yyyy-MM-dd HH:mm:ss");
+                ret.UpdatedAt = DateTime.UtcNow;
+                return TypedResults.Created(ret.Id.ToString());
+            }
+            return TypedResults.BadRequest();
+        }
     }
 }

@@ -8,4 +8,5 @@ public interface IClientService
     Task<IEnumerable<ClientResponse>> GetAsync();
     Task<ClientResponse?> GetByIdAsync(Guid? id);
     Task<ClientResponse> InsertAsync(ClientPostRequest request);
+    Task<ClientResponse?> Update(ClientPutRequest request);
 }

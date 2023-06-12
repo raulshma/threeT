@@ -16,4 +16,5 @@ public partial class ClientMapper
     public partial IEnumerable<ClientResponse> ToResponse(IEnumerable<Client> request);
     public partial ClientResponse ToResponse(Client request);
     public partial ClientResponse ToResponse(ClientPostRequest request);
+    public partial Client ToEntity(ClientPutRequest request);
 }

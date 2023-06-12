@@ -108,4 +108,10 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     {
         return _context.SaveChanges();
     }
+
+    public async Task<TEntity> UpdateAsync(TEntity entityToUpdate)
+    {
+      var item = _dbSet.Update(entityToUpdate);
+      return item.Entity; 
+    }
 }
