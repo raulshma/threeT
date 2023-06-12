@@ -1,10 +1,11 @@
 ﻿
-namespace ThreeTee.Application.Models.Clients;
+namespace ThreeTee.Application.Models.Statuses;
 
-public class ClientResponse : ClientPostRequest
+public class StatusResponse : StatusPostRequest
 {
     public Guid Id { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public string? LastTouchedBy { get; set; }
 }
+

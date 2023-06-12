@@ -44,7 +44,7 @@ namespace ThreeTee.Api.Controllers
             if (ret == null) return TypedResults.BadRequest();
             return TypedResults.Created(ret.Id.ToString());
         }
-
+        // PUT api/<ClientController>
         [HttpPut]
         public async Task<IResult> Put(ClientPutRequest request)
         {

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ThreeTee.Core.Entities;
 
 namespace ThreeTee.Application.Models.Clients;
 
