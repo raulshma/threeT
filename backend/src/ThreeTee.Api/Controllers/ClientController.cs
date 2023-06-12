@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ThreeTee.Application.Interfaces;
 using ThreeTee.Application.Models.Clients;
 
@@ -8,6 +9,7 @@ namespace ThreeTee.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;
@@ -42,20 +44,19 @@ namespace ThreeTee.Api.Controllers
             if (ret == null) return TypedResults.BadRequest();
             return TypedResults.Created(ret.Id.ToString());
         }
-
         // PUT api/<ClientController>
         [HttpPut]
-        public async Task<IResult> Put([FromBody] ClientPutRequest value)
+        public async Task<IResult> Put(ClientPutRequest request)
         {
-            var ret = await _clientService.Update(value);
-            if (ret != null)
-            {
-                //DateTimeOffset currentDateTime = DateTimeOffset.Now;
-                //string formattedDateTime = currentDateTime.ToString("yyyy-MM-dd HH:mm:ss");
-                ret.UpdatedAt = DateTime.UtcNow;
-                return TypedResults.Created(ret.Id.ToString());
-            }
-            return TypedResults.BadRequest();
+            var item = await _clientService.UpdateAsync(request);
+            return TypedResults.Ok(item);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IResult> Delete(Guid id)
+        {
+            await _clientService.DeleteAsync(id);
+            return TypedResults.NoContent();
         }
     }
 }

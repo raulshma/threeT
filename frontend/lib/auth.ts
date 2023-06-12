@@ -26,6 +26,9 @@ export const authOptions: NextAuthOptions = {
           scope: "openid profile email offline_access",
         },
       },
+      httpOptions: {
+        timeout: 15000,
+      },
       clientId: "threet-app",
       profile(profile) {
         return {
@@ -43,16 +46,18 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken as string;
+      session.userId = token.sub;
       return session;
     },
     async jwt({ token, account }) {
       if (account) {
         token.accessToken = account.access_token!;
+        if (account.userId) token.userId = account.userId;
       }
       return token;
     },
   },
   events: {},
   // Enable debug messages in the console if you are having problems
-  debug: false,
+  debug: true,
 };

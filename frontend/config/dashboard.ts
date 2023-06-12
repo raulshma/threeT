@@ -19,6 +19,16 @@ export const dashboardConfig: DashboardConfig = {
       icon: "post",
     },
     {
+      title: "Billing Types",
+      href: "/dashboard/billing-types",
+      icon: "billing",
+    },
+    {
+      title: "Clients",
+      href: "/dashboard/clients",
+      icon: "client",
+    },
+    {
       title: "Projects",
       href: "/dashboard/projects",
       icon: "billing",

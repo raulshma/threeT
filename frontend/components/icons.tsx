@@ -4,7 +4,6 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
-  Command,
   CreditCard,
   File,
   FileText,
@@ -23,13 +22,15 @@ import {
   Twitter,
   User,
   X,
+  Baby,
+  CalendarDays,
   type Icon as LucideIcon,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
 
 export const Icons = {
-  logo: Command,
+  logo: CalendarDays,
   close: X,
   spinner: Loader2,
   chevronLeft: ChevronLeft,
@@ -50,6 +51,7 @@ export const Icons = {
   sun: SunMedium,
   moon: Moon,
   laptop: Laptop,
+  client: Baby,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

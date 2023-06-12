@@ -3,18 +3,9 @@
 import * as React from "react";
 
 import { BillingType, Client, Project } from "@/types";
-import { cn, formatDate } from "@/lib/utils";
-import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
-import { Icons } from "@/components/icons";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -39,42 +30,36 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar } from "./ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
-import { postProject } from "@/lib/client";
-import { redirect } from "next/navigation";
+import { ProjectSchema } from "@/schema";
+import { redirect, useRouter } from "next/navigation";
+import { ToastAction } from "./ui/toast";
 
-// const formSchema = z.object({
-//   name: z.string(),
-//   boardedOn: z.date(),
-//   boardedById: z.date(),
-//   country: z.string().optional(),
-//   isActive: z.boolean(),
-//   billingTypeId: z.string(),
-//   lastTouchedBy: z.string(),
-// });
-const formSchema = z.object({
-  name: z.string(),
-  startDate: z.date(),
-  endDate: z.date().optional(),
-  billingPrice: z.number().optional(),
-  clientId: z.string(),
-});
+export const formSchema = ProjectSchema;
 interface ProjectFormProps extends React.HTMLAttributes<HTMLFormElement> {
+  project?: Project;
   clients?: Client[];
   billingTypes?: BillingType[];
 }
 
 export function ProjectForm({
+  project,
   clients,
   billingTypes,
   className,
   ...props
 }: ProjectFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      billingPrice: 16,
+      id: project?.id ?? undefined,
+      billingPrice: project?.billingPrice ?? 16,
+      clientId: project?.clientId ?? undefined,
+      name: project?.name ?? undefined,
+      startDate: project?.startDate ? new Date(project.startDate) : undefined,
+      endDate: project?.endDate ? new Date(project.endDate) : undefined,
     },
   });
 
@@ -82,43 +67,47 @@ export function ProjectForm({
     setIsLoading(!isLoading);
     console.log(event);
 
+    let submitType = event.id ? "PUT" : "POST";
+
     try {
-      var result = await postProject(event as Project);
+      var result = await fetch("/api/projects", {
+        method: submitType,
+        body: JSON.stringify(event),
+      });
       if (result) {
+        router.refresh();
         return toast({
           title: "Success.",
-          description: "Added project successfully.",
+          action: (
+            <ToastAction
+              altText="Goto projects list"
+              onClick={() => router.push("/dashboard/projects")}
+            >
+              Goto projects
+            </ToastAction>
+          ),
+          description: `Project ${
+            submitType === "PUT" ? "updated" : "saved"
+          } successfully.`,
           variant: "default",
+        });
+      } else {
+        toast({
+          title: "Something went wrong.",
+          description: "Project was not created. Please try again.",
+          variant: "destructive",
         });
       }
     } catch (ex) {
       console.log(ex);
     }
-    // Get a Stripe session URL.
-    // const response = await fetch("/api/users/stripe");
-
-    // if (!response?.ok) {
-    //   return toast({
-    //     title: "Something went wrong.",
-    //     description: "Please refresh the page and try again.",
-    //     variant: "destructive",
-    //   });
-    // }
-
-    // // Redirect to the Stripe session.
-    // // This could be a checkout page for initial upgrade.
-    // // Or portal to manage existing subscription.
-    // const session = await response.json();
-    // if (session) {
-    //   window.location.href = session.url;
-    // }
   }
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={cn(className)}
+        className={cn("space-y-3", className)}
         {...props}
       >
         <FormField
@@ -148,13 +137,11 @@ export function ProjectForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {clients &&
-                    clients.length > 0 &&
-                    clients?.map((client) => (
-                      <SelectItem value={client.id} key={client.id}>
-                        {client.name}
-                      </SelectItem>
-                    ))}
+                  {clients?.map((client) => (
+                    <SelectItem value={client.id!} key={client.id}>
+                      {client.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -207,9 +194,9 @@ export function ProjectForm({
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date("1900-01-01")
-                    }
+                    // disabled={(date) =>
+                    //   date > new Date() || date < new Date("1900-01-01")
+                    // }
                     initialFocus
                   />
                 </PopoverContent>
@@ -248,9 +235,9 @@ export function ProjectForm({
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date("1900-01-01")
-                    }
+                    // disabled={(date) =>
+                    //   date > new Date() || date < new Date("1900-01-01")
+                    // }
                     initialFocus
                   />
                 </PopoverContent>

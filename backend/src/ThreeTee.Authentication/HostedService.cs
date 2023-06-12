@@ -52,13 +52,18 @@ public class Worker : IHostedService
                     Permissions.GrantTypes.Password,
                     Permissions.Prefixes.Scope + "ThreeTApp"
                 },
-                RedirectUris = { new Uri("http://localhost:3000"), new Uri("http://localhost:3000/api/auth/callback/threet") }
+                RedirectUris = { 
+                    new Uri("http://localhost:3000"),
+                    new Uri("http://localhost:3000/api/auth/callback/threet"),
+                    new Uri("https://three-t.vercel.app"),
+                    new Uri("https://three-t.vercel.app/api/auth/callback/threet"),
+                }
             });
         }
         else
         {
             //remove the app on start
-            //await manager.DeleteAsync(app);
+            await manager.DeleteAsync(app);
         }
     }
 
