@@ -13,6 +13,7 @@ public static class Extension
         services.AddScoped<IClientService, ClientService>();
         services.AddScoped<IStatusService, StatusService>();
         services.AddScoped<IDepartmentService, DepartmentService>();
+        services.AddScoped<IDesignationService, DesignationService>();
         return services;
     }
 }
