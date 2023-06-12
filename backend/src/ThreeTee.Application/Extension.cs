@@ -12,6 +12,7 @@ public static class Extension
         services.AddScoped<IBillingTypeService, BillingTypeService>();
         services.AddScoped<IClientService, ClientService>();
         services.AddScoped<IStatusService, StatusService>();
+        services.AddScoped<IDepartmentService, DepartmentService>();
         return services;
     }
 }
