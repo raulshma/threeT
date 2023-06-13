@@ -11,7 +11,7 @@ namespace ThreeTee.Application.Services
         private readonly ProjectUserMapper _mapper;
         public ProjectUserService(IGenericRepository<ProjectUser> repository)
         {
-            _repository = repository;   
+            _repository = repository;
             _mapper = new ProjectUserMapper();
         }
         public async Task DeleteAsync(Guid id)
@@ -23,6 +23,14 @@ namespace ThreeTee.Application.Services
         public async Task<IEnumerable<ProjectUserResponse>> GetAsync()
         {
             IEnumerable<ProjectUser>? items = await _repository.GetAsync();
+            if (!items.Any()) return Enumerable.Empty<ProjectUserResponse>();
+
+            return _mapper.ToDto(items);
+        }
+
+        public async Task<IEnumerable<ProjectUserResponse>> GetByProjectId(Guid id)
+        {
+            IEnumerable<ProjectUser>? items = await _repository.GetAsync(e => e.ProjectId == id);
             if (!items.Any()) return Enumerable.Empty<ProjectUserResponse>();
 
             return _mapper.ToDto(items);

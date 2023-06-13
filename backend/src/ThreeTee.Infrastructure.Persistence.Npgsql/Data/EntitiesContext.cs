@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 using ThreeTee.Core.Entities;
 
 namespace ThreeTee.Infrastructure.Persistence.Npgsql.Data;
@@ -23,6 +22,23 @@ public class EntitiesContext : IdentityDbContext<ApplicationUser, IdentityRole<G
     {
     }
 
+    public override int SaveChanges()
+    {
+        var entries = ChangeTracker
+            .Entries()
+            .Where(e => e.Entity is BaseEntity && (e.State == EntityState.Modified));
+
+        foreach (var entityEntry in entries)
+        {
+
+            if (entityEntry.State == EntityState.Added)
+            {
+                ((BaseEntity)entityEntry.Entity).UpdatedAt = DateTime.UtcNow;
+            }
+        }
+
+        return base.SaveChanges();
+    }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -92,7 +108,7 @@ public class EntitiesContext : IdentityDbContext<ApplicationUser, IdentityRole<G
         designation.HasData(new Designation
         {
             Id = Guid.Parse("a0b3df08-e63a-4914-a576-6287a940b035"),
-            Name ="Junior Software Engineer",
+            Name = "Junior Software Engineer",
             CreatedAt = createdAt,
             LastTouchedBy = systemTouchedBy
         }, new Designation
