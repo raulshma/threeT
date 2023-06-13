@@ -13,7 +13,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
     Task<TEntity> InsertAsync(TEntity entity);
     void Update(TEntity entityToUpdate);
     Task<TEntity> UpdateAsync(TEntity entityToUpdate);
-
+    IQueryable<TEntity> AsQueryable(bool tracking = false);
     Task<int> SaveChangesAsync();
     int SaveChanges();
 }

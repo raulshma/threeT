@@ -42,7 +42,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         }
     }
 
-    public async Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
+    public virtual async Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
     {
         IQueryable<TEntity> query = _dbSet;
 
@@ -73,7 +73,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     {
         _dbSet.Add(entity);
     }
-    public async Task<TEntity> InsertAsync(TEntity entity)
+    public virtual async Task<TEntity> InsertAsync(TEntity entity)
     {
         var item = await _dbSet.AddAsync(entity);
         return item.Entity;
@@ -102,6 +102,13 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     public virtual async Task<int> SaveChangesAsync()
     {
         return await _context.SaveChangesAsync();
+    }
+
+    public virtual IQueryable<TEntity> AsQueryable(bool tracking = false)
+    {
+        if (tracking)
+            return _dbSet.AsQueryable<TEntity>().AsNoTracking();
+        return _dbSet.AsQueryable<TEntity>();
     }
 
     public virtual int SaveChanges()

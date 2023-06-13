@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ThreeTee.Application.Interfaces;
-using ThreeTee.Application.Models.Clients;
 using ThreeTee.Application.Models.ProjectUser;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,7 +9,7 @@ namespace ThreeTee.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class ProjectUserController : ControllerBase
     {
         private readonly IProjectUserService _projectUserService;
@@ -25,6 +24,14 @@ namespace ThreeTee.Api.Controllers
         public async Task<IResult> Get()
         {
             var items = await _projectUserService.GetAsync();
+            return TypedResults.Ok(items);
+        }
+
+        [HttpGet("{id}")]
+        [Produces(typeof(List<ProjectUserResponse>))]
+        public async Task<IResult> Get(Guid id)
+        {
+            var items = await _projectUserService.GetByProjectId(id);
             return TypedResults.Ok(items);
         }
 
