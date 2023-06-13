@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ThreeTee.Application.Interfaces;
+using ThreeTee.Application.Models.Departments;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +10,55 @@ namespace ThreeTee.Api.Controllers
     [ApiController]
     public class DepartmentController : ControllerBase
     {
+        private readonly IDepartmentService _departmentService;
+        public DepartmentController(IDepartmentService departmentService)
+        {
+                _departmentService = departmentService;
+        }
+
         // GET: api/<DepartmentController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Produces(typeof(List<DepartmentResponse>))]
+        public async Task<IResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            var items = await _departmentService.GetAsync();
+            return TypedResults.Ok(items);
         }
 
         // GET api/<DepartmentController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        [Produces(typeof(List<DepartmentResponse>))]
+        public async Task<IResult> Get(Guid id)
         {
-            return "value";
+            var item = await _departmentService.GetByIdAsync(id);
+            return TypedResults.Ok(item);
         }
 
         // POST api/<DepartmentController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IResult> Post([FromBody] DepartmentPostRequest value)
         {
+            var ret = await _departmentService.InsertAsync(value);
+            if(ret==null) { return null; }
+            return TypedResults.Ok(ret);
         }
 
         // PUT api/<DepartmentController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public async Task<IResult> Put([FromBody] DepartmentPutRequest value)
         {
+            var ret = await _departmentService.UpdateAsync(value);
+            if (ret == null) return null;
+            return TypedResults.Ok(ret);
         }
 
         // DELETE api/<DepartmentController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+
+        public async Task<IResult> Delete(Guid id)
         {
+            await _departmentService.DeleteAsync(id);
+            return TypedResults.NoContent();
         }
     }
 }
