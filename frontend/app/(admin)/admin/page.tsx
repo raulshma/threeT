@@ -13,20 +13,6 @@ export const metadata = {
   title: "Dashboard",
 };
 
-export const getBillingTypes = async () => {
-  var token = await getAccessToken();
-  var response = await fetch(`${getResouceUrl()}api/billingtype`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    },
-  });
-  if (response.ok) {
-    var items = await response.json();
-    return items as BillingType[];
-  }
-};
-
 export default async function AdminPage() {
   const user = await getCurrentUser();
 

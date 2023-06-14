@@ -5,8 +5,8 @@ import { getCurrentUser } from "@/lib/session";
 import { DashboardHeader } from "@/components/header";
 import { DashboardShell } from "@/components/shell";
 import { CreateButton } from "@/components/create-button";
-import { getBillingTypes } from "../../page";
 import { ClientForm } from "@/components/client-form";
+import { getBillingTypes } from "@/lib/client";
 
 export const metadata = {
   title: "Onboard Client",
@@ -31,7 +31,10 @@ export default async function ClientsCreatePage() {
         />
       </DashboardHeader>
       <div className="grid gap-8">
-        <ClientForm billingTypes={billingTypes} listPage={metadata.relativePath} />
+        <ClientForm
+          billingTypes={billingTypes}
+          listPage={metadata.relativePath}
+        />
       </div>
     </DashboardShell>
   );

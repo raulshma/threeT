@@ -4,10 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { getCurrentUser } from "@/lib/session";
 import { DashboardHeader } from "@/components/header";
 import { DashboardShell } from "@/components/shell";
-import { getClients } from "@/lib/client";
-import { ProjectForm } from "@/components/project-form";
 import { CreateButton } from "@/components/create-button";
-import { getBillingTypes } from "../../page";
 
 export const metadata = {
   title: "Create Billing Type",
