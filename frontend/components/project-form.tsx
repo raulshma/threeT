@@ -38,6 +38,7 @@ export const formSchema = ProjectSchema;
 interface ProjectFormProps extends React.HTMLAttributes<HTMLFormElement> {
   project?: Project;
   clients?: Client[];
+  listPage?: string;
   billingTypes?: BillingType[];
 }
 
@@ -45,6 +46,7 @@ export function ProjectForm({
   project,
   clients,
   billingTypes,
+  listPage,
   className,
   ...props
 }: ProjectFormProps) {
@@ -81,7 +83,9 @@ export function ProjectForm({
           action: (
             <ToastAction
               altText="Goto projects list"
-              onClick={() => router.push("/dashboard/projects")}
+              onClick={() =>
+                router.push(listPage ? listPage : "/dashboard/projects")
+              }
             >
               Goto projects
             </ToastAction>

@@ -66,7 +66,7 @@ export function CardOperations({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem>
-            <Link href={`/${editPath}/${id}`} className="flex w-full">
+            <Link href={`${editPath}/${id}`} className="flex w-full">
               Edit
             </Link>
           </DropdownMenuItem>

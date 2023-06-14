@@ -41,7 +41,7 @@ export function CardItem({
         id={id}
         itemType="projects"
         itemName="project"
-        editPath="dashboard/projects"
+        editPath={isFor}
       />
     </div>
   );

@@ -9,7 +9,7 @@ export const metadata = {
   title: "Dashboard",
 };
 
-export default async function DashboardPage() {
+export default async function AdminPage() {
   const user = await getCurrentUser();
 
   if (!user) {
@@ -19,8 +19,8 @@ export default async function DashboardPage() {
   return (
     <DashboardShell>
       <DashboardHeader
-        heading="ThreeT"
-        text="Manage your work."
+        heading="Admin"
+        text="Internal use."
       ></DashboardHeader>
       <div></div>
     </DashboardShell>
