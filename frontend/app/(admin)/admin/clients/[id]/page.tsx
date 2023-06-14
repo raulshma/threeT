@@ -4,8 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { getCurrentUser } from "@/lib/session";
 import { DashboardHeader } from "@/components/header";
 import { DashboardShell } from "@/components/shell";
-import { ApiClient, getClients } from "@/lib/client";
-import { ProjectForm } from "@/components/project-form";
+import { ApiClient } from "@/lib/client";
 import { CreateButton } from "@/components/create-button";
 import { getBillingTypes } from "../../page";
 import { ClientForm } from "@/components/client-form";
@@ -15,7 +14,7 @@ import { Client } from "@/types";
 export const metadata = {
   title: "Onboard Client",
   description: "Onboard a client.",
-  relativePath: "/dashboard/clients",
+  relativePath: "/admin/clients",
 };
 
 export type ClientEditPageParams = {
@@ -30,7 +29,7 @@ export default async function ClientsEditPage({
     redirect(authOptions?.pages?.signIn || "/login");
   }
   if (!id) {
-    redirect("/dashboard/clients");
+    redirect(metadata.relativePath);
   }
   const [billingTypes, client] = await Promise.all([
     getBillingTypes(),
@@ -46,7 +45,11 @@ export default async function ClientsEditPage({
         />
       </DashboardHeader>
       <div className="grid gap-8">
-        <ClientForm client={client} billingTypes={billingTypes} />
+        <ClientForm
+          client={client}
+          billingTypes={billingTypes}
+          listPage={metadata.relativePath}
+        />
       </div>
     </DashboardShell>
   );

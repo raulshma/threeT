@@ -3,35 +3,19 @@ import { DashboardConfig } from "@/types";
 export const dashboardConfig: DashboardConfig = {
   mainNav: [
     {
-      title: "Documentation",
-      href: "/docs",
+      title: "Dashboard",
+      href: "/dashboard",
     },
     {
-      title: "Support",
-      href: "/support",
-      disabled: true,
+      title: "Admin",
+      href: "/admin"
     },
   ],
   sidebarNav: [
     {
-      title: "Dashboard",
+      title: "My status",
       href: "/dashboard",
       icon: "post",
-    },
-    {
-      title: "Billing Types",
-      href: "/dashboard/billing-types",
-      icon: "billing",
-    },
-    {
-      title: "Clients",
-      href: "/dashboard/clients",
-      icon: "client",
-    },
-    {
-      title: "Projects",
-      href: "/dashboard/projects",
-      icon: "billing",
     },
     {
       title: "Settings",

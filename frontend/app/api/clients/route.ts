@@ -42,10 +42,11 @@ export async function PUT(req: Request) {
     }
 
     const json = await req.json();
-    if (json.startDate) {
+    if (json.boardedOn) {
       json.boardedOn = new Date(json.boardedOn);
     }
     json.updatedAt = new Date();
+    if (session.userId) json.boardedById = session.userId;
 
     const body = ClientFormSchema.parse(json);
 

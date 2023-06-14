@@ -38,11 +38,13 @@ import { ToastAction } from "./ui/toast";
 interface ProjectFormProps extends React.HTMLAttributes<HTMLFormElement> {
   client?: Client;
   billingTypes?: BillingType[];
+  listPage?: string;
 }
 
 export function ClientForm({
   client,
   billingTypes,
+  listPage,
   className,
   ...props
 }: ProjectFormProps) {
@@ -80,7 +82,7 @@ export function ClientForm({
           action: (
             <ToastAction
               altText="Goto clients list"
-              onClick={() => router.push("/dashboard/clients")}
+              onClick={() => router.push(listPage ? listPage : "/")}
             >
               Goto clients
             </ToastAction>

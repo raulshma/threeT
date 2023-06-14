@@ -8,32 +8,28 @@ import { getClients } from "@/lib/client";
 import { ProjectForm } from "@/components/project-form";
 import { CreateButton } from "@/components/create-button";
 import { getBillingTypes } from "../../page";
-import { ClientForm } from "@/components/client-form";
 
 export const metadata = {
-  title: "Onboard Client",
-  description: "Onboard a client.",
-  relativePath: "/dashboard/clients",
+  title: "Create Billing Type",
+  description: "Create a new billing type.",
+  relativePath: "/admin/billing-types",
 };
 
-export default async function ClientsCreatePage() {
+export default async function BillingTypesCreatePage() {
   const user = await getCurrentUser();
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login");
   }
 
-  const [billingTypes] = await Promise.all([getBillingTypes()]);
-
   return (
     <DashboardShell>
-      <DashboardHeader heading={metadata.title} text={metadata.description}>
-        <CreateButton
-          title={metadata.title}
-          goto={`${metadata.relativePath}/create`}
-        />
+      <DashboardHeader
+        heading={metadata.title}
+        text={metadata.description}
+      >
+        <CreateButton title={"billing type"} goto={`${metadata.relativePath}/create`} />
       </DashboardHeader>
       <div className="grid gap-8">
-        <ClientForm billingTypes={billingTypes} />
       </div>
     </DashboardShell>
   );

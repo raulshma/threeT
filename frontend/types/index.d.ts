@@ -53,6 +53,11 @@ export type DashboardConfig = {
   sidebarNav: SidebarNavItem[];
 };
 
+export type AdminConfig = {
+  mainNav: MainNavItem[];
+  sidebarNav: SidebarNavItem[];
+};
+
 export type BillingType = {
   id: string;
   name: string;

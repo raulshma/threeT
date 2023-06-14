@@ -10,26 +10,39 @@ import { CreateButton } from "@/components/create-button";
 import { getBillingTypes } from "../../page";
 
 export const metadata = {
-  title: "Create Billing Type",
-  description: "Create a new billing type.",
-  relativePath: "/dashboard/billing-types",
+  title: "Create Project",
+  description: "Create a new project.",
+  relativePath: "/admin/projects",
 };
 
-export default async function BillingTypesCreatePage() {
+export default async function ProjectCreatePage() {
   const user = await getCurrentUser();
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login");
   }
 
+  const [clients, billingTypes] = await Promise.all([
+    getClients(),
+    getBillingTypes(),
+  ]);
+
   return (
     <DashboardShell>
       <DashboardHeader
-        heading={metadata.title}
-        text={metadata.description}
+        heading="Projects"
+        text="Manage current and past projects."
       >
-        <CreateButton title={"billing type"} goto={`${metadata.relativePath}/create`} />
+        <CreateButton
+          title="project"
+          goto={`${metadata.relativePath}/create`}
+        />
       </DashboardHeader>
       <div className="grid gap-8">
+        <ProjectForm
+          clients={clients}
+          billingTypes={billingTypes}
+          listPage={metadata.relativePath}
+        />
       </div>
     </DashboardShell>
   );
