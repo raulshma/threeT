@@ -1,13 +1,9 @@
 import { redirect } from "next/navigation";
 
 import { authOptions } from "@/lib/auth";
-import { getAccessToken, getCurrentUser } from "@/lib/session";
-import { EmptyPlaceholder } from "@/components/empty-placeholder";
+import { getCurrentUser } from "@/lib/session";
 import { DashboardHeader } from "@/components/header";
-import { CardItem } from "@/components/card";
 import { DashboardShell } from "@/components/shell";
-import { getResouceUrl } from "@/lib/utils";
-import { BillingType } from "@/types";
 
 export const metadata = {
   title: "Dashboard",
