@@ -64,3 +64,7 @@ export type BillingType = {
 };
 export type Client = z.infer<typeof ClientFormSchema>;
 export type Project = z.infer<typeof ProjectSchema>;
+
+export type AdditionalDropdownItems = [
+  { name: "PROJECT_TEAM_MEMBERS"; route: "/members" }
+];

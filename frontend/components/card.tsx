@@ -3,12 +3,14 @@ import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDate } from "@/lib/utils";
 import { CardOperations } from "./card-operations";
+import { AdditionalDropdownItems } from "@/types";
 
 interface CardItemProps {
   id: string;
   title: string;
   createdAt: Date;
   isFor?: string;
+  additionalMenuItems?: AdditionalDropdownItems
 }
 
 export function CardItem({
@@ -16,6 +18,7 @@ export function CardItem({
   isFor = "project",
   title,
   createdAt,
+  additionalMenuItems,
 }: CardItemProps) {
   const linkUrl = isFor
     ? isFor.startsWith("/")
@@ -42,6 +45,7 @@ export function CardItem({
         itemType="projects"
         itemName="project"
         editPath={isFor}
+        additionalMenuItems={additionalMenuItems}
       />
     </div>
   );

@@ -30,7 +30,7 @@ namespace ThreeTee.Application.Services
 
         public async Task<IEnumerable<ProjectUserResponse>> GetByProjectId(Guid id)
         {
-            IEnumerable<ProjectUser>? items = await _repository.GetAsync(e => e.ProjectId == id);
+            IEnumerable<ProjectUser>? items = await _repository.GetAsync(e => e.ProjectId == id, o => o.OrderBy(e => e.CreatedAt), "User.Designation,Project");
             if (!items.Any()) return Enumerable.Empty<ProjectUserResponse>();
 
             return _mapper.ToDto(items);

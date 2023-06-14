@@ -12,7 +12,7 @@ import { CreateButton } from "@/components/create-button";
 export const metadata = {
   title: "Projects",
   description: "Manage current and past projects.",
-  relativePath: "/admin/projects"
+  relativePath: "/admin/projects",
 };
 
 export default async function ProjectPage() {
@@ -30,7 +30,10 @@ export default async function ProjectPage() {
         heading="Projects"
         text="Manage current and past projects."
       >
-        <CreateButton title="project" goto={`${metadata.relativePath}/create`} />
+        <CreateButton
+          title="project"
+          goto={`${metadata.relativePath}/create`}
+        />
       </DashboardHeader>
       <div className="grid gap-8">
         <div>
@@ -43,6 +46,9 @@ export default async function ProjectPage() {
                   id={String(item.id)}
                   createdAt={new Date()}
                   isFor={metadata.relativePath}
+                  additionalMenuItems={[
+                    { name: "PROJECT_TEAM_MEMBERS", route: "/members" },
+                  ]}
                 />
               ))}
             </div>

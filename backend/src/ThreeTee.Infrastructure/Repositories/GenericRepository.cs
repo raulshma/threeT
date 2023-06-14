@@ -118,7 +118,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
     public async Task<TEntity> UpdateAsync(TEntity entityToUpdate)
     {
-      var item = _dbSet.Update(entityToUpdate);
-      return item.Entity; 
+        var item = _dbSet.Update(entityToUpdate);
+        return item.Entity;
     }
 }
