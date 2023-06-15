@@ -90,8 +90,9 @@ export const deleteClient = async (id: string) => await Delete("project", id);
 
 // Generic crud
 export const ApiClient = {
-  LIST: async <T>(resourceName: string): Promise<T> => await Get<T>(resourceName),
-  GET: async <T>(resourceName: string, id: string): Promise<T> =>
+  LIST: async <T>(resourceName: string): Promise<T> =>
+    await Get<T>(resourceName),
+  GET: async <T>(resourceName: string, id?: string): Promise<T> =>
     await Get<T>(resourceName, id),
   POST: async <T>(resourceName: string, body: T): Promise<T> =>
     await Post<T>(resourceName, body),
@@ -100,3 +101,6 @@ export const ApiClient = {
   DELETE: async (resourceName: string, id: string): Promise<void> =>
     await Delete(resourceName, id),
 };
+
+export const resourceNameProjectMembers = "projectUser";
+export const resourceNameMembers = "applicationUser";

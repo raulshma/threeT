@@ -62,6 +62,42 @@ export type BillingType = {
   id: string;
   name: string;
 };
+
+export type ProjectUser = {
+  userName: string;
+  userEmail: string;
+  userDesignationName: string | null;
+  userId: string;
+  projectId: string;
+  userJoiningDate: string;
+  userExperienceYears: number;
+};
+
+export type Member = {
+  experience: number;
+  joiningDate: Date;
+  relievingDate: null;
+  designationId: string;
+  designation: null;
+  departmentId: string;
+  department: null;
+  id: string;
+  userName: string;
+  normalizedUserName: string;
+  email: string;
+  normalizedEmail: string;
+  emailConfirmed: boolean;
+  passwordHash: string;
+  securityStamp: string;
+  concurrencyStamp: string;
+  phoneNumber: null;
+  phoneNumberConfirmed: boolean;
+  twoFactorEnabled: boolean;
+  lockoutEnd: null;
+  lockoutEnabled: boolean;
+  accessFailedCount: number;
+};
+
 export type Client = z.infer<typeof ClientFormSchema>;
 export type Project = z.infer<typeof ProjectSchema>;
 

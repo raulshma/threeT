@@ -15,9 +15,10 @@ import { UserAvatar } from "@/components/user-avatar";
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, "name" | "image" | "email">;
+  type: "ADMIN" | "DASHBOARD";
 }
 
-export function UserAccountNav({ user }: UserAccountNavProps) {
+export function UserAccountNav({ user, type }: UserAccountNavProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -39,22 +40,31 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           </div>
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href="/dashboard">Dashboard</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/dashboard/billing-types">Billing Types</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/dashboard/clients">Clients</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/dashboard/projects">Projects</Link>
-        </DropdownMenuItem>
+        {type === "DASHBOARD" && (
+          <>
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard">Dashboard</Link>
+            </DropdownMenuItem>
+          </>
+        )}
+        {type === "ADMIN" && (
+          <>
+            {" "}
+            <DropdownMenuItem asChild>
+              <Link href="/admin/billing-types">Billing Types</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/admin/clients">Clients</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/admin/projects">Projects</Link>
+            </DropdownMenuItem>
+          </>
+        )}
+        <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link href="/dashboard/settings">Settings</Link>
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer"
           onSelect={(event) => {

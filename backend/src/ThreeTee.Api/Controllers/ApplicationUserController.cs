@@ -12,7 +12,7 @@ namespace ThreeTee.Api.Controllers
     [ApiController]
     [Authorize]
     public class ApplicationUserController : ControllerBase
-    {
+    {   
         // GET: api/<ApplicationUserController>
         [HttpGet]
         public async Task<IResult> Get([FromServices] EntitiesContext context)

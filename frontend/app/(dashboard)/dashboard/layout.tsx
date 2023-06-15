@@ -30,6 +30,7 @@ export default async function DashboardLayout({
               image: user.image,
               email: user.email,
             }}
+            type={"DASHBOARD"}
           />
         </div>
       </header>

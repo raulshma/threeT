@@ -31,6 +31,7 @@ export default async function AdminLayout({
               image: user.image,
               email: user.email,
             }}
+            type={"ADMIN"} 
           />
         </div>
       </header>
