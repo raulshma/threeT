@@ -29,6 +29,7 @@ namespace ThreeTee.Api.Controllers
         public async Task<IResult> Get(Guid id)
         {
             var item = await _designationService.GetByIdAsync(id);
+            if (item == null) return TypedResults.NotFound();
             return TypedResults.Ok(item);
         }
 
@@ -36,18 +37,28 @@ namespace ThreeTee.Api.Controllers
         [HttpPost]
         public async Task<IResult> Post([FromBody] DesignationPostRequest value)
         {
-            var ret = await _designationService.InsertAsync(value);
-            if(ret != null) { return TypedResults.Ok(ret); }
-            return null;
+            if (value?.Name != "")
+            {
+                var ret = await _designationService.InsertAsync(value);
+                if (ret != null) { return TypedResults.Ok(ret); }
+                return TypedResults.BadRequest();
+            }
+            else
+                return TypedResults.BadRequest("Invalid designation name");
         }
 
         // PUT api/<DesignationController>/5
         [HttpPut]
         public async Task<IResult> Put([FromBody] DesignationPutRequest value)
         {
-            var ret = await _designationService.UpdateAsync(value);
-            if(ret != null) { return TypedResults.Ok(ret); }
-            return null;
+            if (value?.Name != "")
+            {
+                var ret = await _designationService.UpdateAsync(value);
+                if (ret != null) { return TypedResults.Ok(ret); }
+                return TypedResults.NotFound("Designation not found");
+            }
+            else
+                return TypedResults.BadRequest("Invalid designation name");
         }
 
         // DELETE api/<DesignationController>/5
