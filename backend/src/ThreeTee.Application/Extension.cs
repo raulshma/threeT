@@ -15,6 +15,7 @@ public static class Extension
         services.AddScoped<IDepartmentService, DepartmentService>();
         services.AddScoped<IDesignationService, DesignationService>();
         services.AddScoped<IProjectUserService, ProjectUserService>();
+        services.AddScoped<IModuleService,ModuleService>();
         return services;
     }
 }
