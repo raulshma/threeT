@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using ThreeTee.Application.Interfaces;
-using ThreeTee.Application.Extension;
 using ThreeTee.Infrastructure.Persistence.Npgsql.Data;
 using ThreeTee.Infrastructure.Repositories;
 using Microsoft.IdentityModel.Tokens;
