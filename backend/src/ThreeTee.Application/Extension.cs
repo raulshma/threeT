@@ -15,6 +15,8 @@ public static class Extension
         services.AddScoped<IDepartmentService, DepartmentService>();
         services.AddScoped<IDesignationService, DesignationService>();
         services.AddScoped<IProjectUserService, ProjectUserService>();
+        // Need to register the Module respository for fixing the Build Error (Imoduleservice). 
+        services.AddScoped<IModuleService,ModuleService>();
         return services;
     }
 }
