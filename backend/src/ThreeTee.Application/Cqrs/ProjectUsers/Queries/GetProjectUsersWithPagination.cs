@@ -27,7 +27,7 @@ public class GetTodoItemsWithPaginationQueryHandler : IRequestHandler<GetProject
     public async Task<PaginatedList<ProjectUserResponse>> Handle(GetProjectUsersWithPaginationQuery request, CancellationToken cancellationToken)
     {
         return await _context.ProjectUsers
-            .OrderBy(x => new {x.Project.Name, x.User.UserName})
+            // .OrderBy(pu=>pu.LastTouchedBy)
             .ProjectToType<ProjectUserResponse>()
             .PaginatedListAsync(request.PageNumber, request.PageSize);
     }

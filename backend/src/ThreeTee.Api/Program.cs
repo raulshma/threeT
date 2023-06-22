@@ -27,12 +27,14 @@ builder.Services.AddDistributedRedisCache(option =>
 {
     option.Configuration = builder.Configuration["Redis"];
 });
+//Remove this later when all controllers are using mediatr
 builder.Services.AddDbContext<DbContext, EntitiesContext>(options =>
 {
     options.UseNpgsql(connectionString);
 });
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddInfrastructurePersistenceServices(connectionString!);
 builder.Services.AddApplicationServices();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

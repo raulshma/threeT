@@ -1,5 +1,7 @@
 using System.Reflection;
 using FluentValidation;
+using Mapster;
+using MapsterMapper;
 using MediatR;
 // using MapsterMapper;
 using ThreeTee.Application.Interfaces;
@@ -19,10 +21,14 @@ public static class ConfigureServices
         services.AddScoped<IDepartmentService, DepartmentService>();
         services.AddScoped<IDesignationService, DesignationService>();
         services.AddScoped<IProjectUserService, ProjectUserService>();
-        //
+        //Mapster
+        var config = new TypeAdapterConfig();
+        services.AddSingleton(config);
+        services.AddScoped<IMapper, ServiceMapper>();
 
-        // services.AddMapster();
+        //Fluent validation
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        //MediatR
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
