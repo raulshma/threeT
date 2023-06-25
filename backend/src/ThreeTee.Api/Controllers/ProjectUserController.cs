@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ThreeTee.Application.Cqrs.ProjectUsers.Queries;
 using ThreeTee.Application.Interfaces;
 using ThreeTee.Application.Models.ProjectUser;
 
@@ -10,20 +11,20 @@ namespace ThreeTee.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class ProjectUserController : ControllerBase
+    public class ProjectUserController : ApiControllerBase
     {
         private readonly IProjectUserService _projectUserService;
 
         public ProjectUserController(IProjectUserService projectUserService)
         {
-            _projectUserService  = projectUserService;
+            _projectUserService = projectUserService;
         }
         // GET: api/<ClientController>
         [HttpGet]
         [Produces(typeof(List<ProjectUserResponse>))]
-        public async Task<IResult> Get()
+        public async Task<IResult> Get([FromQuery] GetProjectUsersWithPaginationQuery query)
         {
-            var items = await _projectUserService.GetAsync();
+            var items = await Mediator.Send(query);
             return TypedResults.Ok(items);
         }
 

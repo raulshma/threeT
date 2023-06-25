@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using ThreeTee.Application.Interfaces;
-using ThreeTee.Application.Extension;
 using ThreeTee.Infrastructure.Persistence.Npgsql.Data;
 using ThreeTee.Infrastructure.Repositories;
 using Microsoft.IdentityModel.Tokens;
@@ -58,7 +57,8 @@ builder.Services.AddDistributedRedisCache(option =>
 {
     option.Configuration = builder.Configuration["Redis"];
 });
-builder.Services.AddDbContext<EntitiesContext>(options =>
+//Remove this later when all controllers are using mediatr
+builder.Services.AddDbContext<DbContext, EntitiesContext>(options =>
 {
     options.UseNpgsql(connectionString);
 });
@@ -66,8 +66,9 @@ builder.Services.AddDbContext<EntitiesContext>(options =>
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<EntitiesContext>();
 
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddInfrastructurePersistenceServices(connectionString!);
 builder.Services.AddApplicationServices();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 builder.Host.UseSerilog((context, configuration) =>
 {

@@ -5,7 +5,7 @@ using ThreeTee.Core.Entities;
 
 namespace ThreeTee.Infrastructure.Persistence.Npgsql.Data;
 
-public class EntitiesContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
+public class EntitiesContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>, IEntitiesContext
 {
     public DbSet<BillingType> BillingTypes { get; set; }
     public DbSet<Client> Clients { get; set; }
