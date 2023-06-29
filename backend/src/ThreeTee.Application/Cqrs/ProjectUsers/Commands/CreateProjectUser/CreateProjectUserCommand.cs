@@ -1,3 +1,4 @@
+using Mapster;
 using MediatR;
 using ThreeTee.Core.Entities;
 
@@ -20,11 +21,12 @@ public class CreateProjectUserCommandHandler : IRequestHandler<CreateProjectUser
 
     public async Task<Guid> Handle(CreateProjectUserCommand request, CancellationToken cancellationToken)
     {
-        var entity = new ProjectUser
-        {
-            ProjectId = request.ProjectId,
-            UserId = request.UserId,
-        };
+        var entity = request.Adapt<ProjectUser>();
+        //var entitys = new ProjectUser
+        //{
+        //    ProjectId = request.ProjectId,
+        //    UserId = entity.UserId,
+        //};
 
         // entity.AddDomainEvent(new ProjectUserCreatedEvent(entity));
 
