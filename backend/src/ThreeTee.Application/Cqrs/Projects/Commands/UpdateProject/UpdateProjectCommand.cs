@@ -29,21 +29,9 @@ public class UpdateProjectCommandHandler : IRequestHandler<UpdateProjectCommand,
     }
     public async Task<Project> Handle(UpdateProjectCommand request, CancellationToken cancellationToken)
     {
-
-        //var project = _context.Projects.FirstOrDefault(p => p.Id == request.Id);
-
-        //if (project is null)
-        //    return default;
-
-        ////_context.Projects.Update(project);
-
-        //project.Name = request.Name;
-        //project.StartDate = DateTime.SpecifyKind(DateTime.Parse("2023-06-04T16:55:44.501Z"), DateTimeKind.Utc);
-        //project.EndDate = request.EndDate;
-        //project.BillingPrice = request.BillingPrice;
-        //project.ClientId=request.ClientId;
         var entity = request.Adapt<Project>();
         _context.Projects.Update(entity);
+
         await _context.SaveChangesAsync(cancellationToken);
         return entity;
     }
