@@ -8,7 +8,7 @@ public class DeleteProjectUserCommandValidator:AbstractValidator<DeleteProjectUs
     {
         RuleFor(e=>e.UserId)
             .NotEmpty();
-        RuleFor(e => e.ProjectId == e.OldProjectId)
+        RuleFor(e => e.ProjectId)
             .NotEmpty();
     }
 }

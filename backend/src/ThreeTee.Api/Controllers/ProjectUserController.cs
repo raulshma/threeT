@@ -16,13 +16,6 @@ namespace ThreeTee.Api.Controllers
     [Authorize]
     public class ProjectUserController : ApiControllerBase
     {
-        private readonly IEntitiesContext _context;
-
-        public ProjectUserController(IEntitiesContext context)
-        {
-            _context = context;
-        }
-
         // GET: api/<ClientController>
         [HttpGet]
         [Produces(typeof(List<ProjectUserResponse>))]
@@ -55,9 +48,6 @@ namespace ThreeTee.Api.Controllers
         [HttpPut]
         public async Task<IResult> Put(UpdateProjectUserCommand query)
         {
-            query.OldProjectId = _context.ProjectUsers.Where(e => e.UserId == query.UserId)
-                ?.SingleOrDefault(e => e.ProjectId == query.ProjectId)?.ProjectId;
-
             var item = await Mediator.Send(query);
             return TypedResults.Ok(item);
         }
@@ -66,9 +56,6 @@ namespace ThreeTee.Api.Controllers
         [HttpDelete("{UserId}")]
         public async Task<IResult> Delete(DeleteProjectUserCommand query)
         {
-            query.OldProjectId = _context.ProjectUsers.Where(e => e.UserId == query.UserId)
-                ?.SingleOrDefault(e => e.ProjectId == query.ProjectId)?.ProjectId;
-
             var item = await Mediator.Send(query);
             return TypedResults.NoContent();
         }

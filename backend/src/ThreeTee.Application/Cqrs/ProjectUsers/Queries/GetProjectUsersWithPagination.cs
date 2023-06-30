@@ -13,12 +13,12 @@ public record GetProjectUsersWithPaginationQuery : IRequest<PaginatedList<Projec
     public int PageSize { get; init; } = 10;
 }
 
-public class GetTodoItemsWithPaginationQueryHandler : IRequestHandler<GetProjectUsersWithPaginationQuery, PaginatedList<ProjectUserResponse>>
+public class GetProjectUsersWithPaginationQueryHandler : IRequestHandler<GetProjectUsersWithPaginationQuery, PaginatedList<ProjectUserResponse>>
 {
     private readonly IEntitiesContext _context;
     private readonly IMapper _mapper;
 
-    public GetTodoItemsWithPaginationQueryHandler(IEntitiesContext context, IMapper mapper)
+    public GetProjectUsersWithPaginationQueryHandler(IEntitiesContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;

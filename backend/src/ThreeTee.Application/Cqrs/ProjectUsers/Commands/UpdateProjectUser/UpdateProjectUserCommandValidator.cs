@@ -8,10 +8,12 @@ public class UpdateProjectUserCommandValidator:AbstractValidator<UpdateProjectUs
     {
         RuleFor(v => v.UserId)
             .NotEmpty();
-        RuleFor(v=>v.ProjectId)
+        RuleFor(v => v.ProjectId)
             .NotEmpty();
-        RuleFor(v=>v.ProjectId!=v.OldProjectId)
+        RuleFor(v => v.OldProjectId)
             .NotEmpty();
+        RuleFor(e => e.ProjectId)
+            .NotEqual(v => v.OldProjectId);
     }
 }
 
