@@ -7,26 +7,28 @@ using ThreeTee.Application.Models.ProjectUser;
 
 namespace ThreeTee.Application.Cqrs.ProjectUsers.Queries;
 
-public record GetProjectUsersWithPaginationQuery : IRequest<PaginatedList<ProjectUserResponse>>
+public record GetProjectUsersWithUserIdPaginationQuery : IRequest<PaginatedList<ProjectUserResponse>>
 {
     public int PageNumber { get; init; } = 1;
     public int PageSize { get; init; } = 10;
+    public Guid UserId { get; set; }
 }
 
-public class GetProjectUsersWithPaginationQueryHandler : IRequestHandler<GetProjectUsersWithPaginationQuery, PaginatedList<ProjectUserResponse>>
+public class GetProjectUsersWithUserIdPaginationQueryHandler : IRequestHandler<GetProjectUsersWithUserIdPaginationQuery, PaginatedList<ProjectUserResponse>>
 {
     private readonly IEntitiesContext _context;
     private readonly IMapper _mapper;
 
-    public GetProjectUsersWithPaginationQueryHandler(IEntitiesContext context, IMapper mapper)
+    public GetProjectUsersWithUserIdPaginationQueryHandler(IEntitiesContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
     }
 
-    public async Task<PaginatedList<ProjectUserResponse>> Handle(GetProjectUsersWithPaginationQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<ProjectUserResponse>> Handle(GetProjectUsersWithUserIdPaginationQuery request, CancellationToken cancellationToken)
     {
         return await _context.ProjectUsers
+            .Where(e=>e.UserId==request.UserId)
             // .OrderBy(pu=>pu.LastTouchedBy)
             .ProjectToType<ProjectUserResponse>()
             .PaginatedListAsync(request.PageNumber, request.PageSize);

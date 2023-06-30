@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
+using ThreeTee.Application.Cqrs.ProjectUsers.Commands.CreateProjectUser;
+using ThreeTee.Application.Cqrs.ProjectUsers.Commands.DeleteProjectUser;
+using ThreeTee.Application.Cqrs.ProjectUsers.Commands.UpdateProjectUser;
 using ThreeTee.Application.Cqrs.ProjectUsers.Queries;
-using ThreeTee.Application.Interfaces;
 using ThreeTee.Application.Models.ProjectUser;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,12 +16,6 @@ namespace ThreeTee.Api.Controllers
     [Authorize]
     public class ProjectUserController : ApiControllerBase
     {
-        private readonly IProjectUserService _projectUserService;
-
-        public ProjectUserController(IProjectUserService projectUserService)
-        {
-            _projectUserService = projectUserService;
-        }
         // GET: api/<ClientController>
         [HttpGet]
         [Produces(typeof(List<ProjectUserResponse>))]
@@ -28,37 +25,39 @@ namespace ThreeTee.Api.Controllers
             return TypedResults.Ok(items);
         }
 
-        [HttpGet("{id}")]
+        //GET PROJECT USER LIST api/<ClientController>
+        [HttpPost("{UserId}")]
         [Produces(typeof(List<ProjectUserResponse>))]
-        public async Task<IResult> Get(Guid id)
+        public async Task<IResult> Get(GetProjectUsersWithUserIdPaginationQuery query)
         {
-            var items = await _projectUserService.GetByProjectId(id);
+            var items = await Mediator.Send(query);
             return TypedResults.Ok(items);
         }
 
         // POST api/<ClientController>
         [HttpPost]
-        public async Task<IResult> Post([FromBody] ProjectUserUpsertRequest value)
+        public async Task<IResult> Post([FromBody] CreateProjectUserCommand query)
         {
-
-            var ret = await _projectUserService.InsertAsync(value);
-            if (ret == null) return TypedResults.BadRequest();
-            return TypedResults.Created(ret.ProjectId.ToString());
+            var items = await Mediator.Send(query);
+            if (items != Guid.Empty)
+            { return TypedResults.Created(items.ToString()); }
+            return TypedResults.BadRequest();
         }
+
         // PUT api/<ClientController>
         [HttpPut]
-        public async Task<IResult> Put(ProjectUserUpsertRequest request)
+        public async Task<IResult> Put(UpdateProjectUserCommand query)
         {
-            var item = await _projectUserService.UpdateAsync(request);
+            var item = await Mediator.Send(query);
             return TypedResults.Ok(item);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IResult> Delete(Guid id)
+        // DELETE api/<ClientController>
+        [HttpDelete("{UserId}")]
+        public async Task<IResult> Delete(DeleteProjectUserCommand query)
         {
-            await _projectUserService.DeleteAsync(id);
+            var item = await Mediator.Send(query);
             return TypedResults.NoContent();
         }
-
     }
 }
