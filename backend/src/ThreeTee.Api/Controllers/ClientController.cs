@@ -14,7 +14,7 @@ namespace ThreeTee.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class ClientController : ApiControllerBase
     {
         
