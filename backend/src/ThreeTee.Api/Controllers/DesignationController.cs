@@ -1,4 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ThreeTee.Application.Cqrs.Designations.Commands.CreateDesignation;
+using ThreeTee.Application.Cqrs.Designations.Commands.DeleteDesignation;
+using ThreeTee.Application.Cqrs.Designations.Commands.UpdateDesignation;
+using ThreeTee.Application.Cqrs.Designations.Queries;
 using ThreeTee.Application.Interfaces;
 using ThreeTee.Application.Models.Designations;
 
@@ -8,53 +12,48 @@ namespace ThreeTee.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DesignationController : ControllerBase
+    public class DesignationController : ApiControllerBase
     {
-        private readonly IDesignationService _designationService;
-        public DesignationController(IDesignationService designationService)
-        {
-            _designationService = designationService;
-        }
 
         // GET: api/<DesignationController>
         [HttpGet]
-        public async Task<IResult> Get()
+        public async Task<IResult> Get([FromQuery]GetDesignationWithPaginationQuery query)
         {
-            var items = await _designationService.GetAsync();
+            var items = await Mediator.Send(query);
             return TypedResults.Ok(items);
         }
 
         // GET api/<DesignationController>/5
         [HttpGet("{id}")]
-        public async Task<IResult> Get(Guid id)
+        public async Task<IResult> Get([FromQuery]GetDesignationsByIdQuery query)
         {
-            var item = await _designationService.GetByIdAsync(id);
+            var item = await Mediator.Send(query);
             return TypedResults.Ok(item);
         }
 
         // POST api/<DesignationController>
         [HttpPost]
-        public async Task<IResult> Post([FromBody] DesignationPostRequest value)
+        public async Task<IResult> Post([FromBody] CreateDesignationCommand query)
         {
-            var ret = await _designationService.InsertAsync(value);
+            var ret = await Mediator.Send(query);
             if(ret != null) { return TypedResults.Ok(ret); }
             return null;
         }
 
         // PUT api/<DesignationController>/5
         [HttpPut]
-        public async Task<IResult> Put([FromBody] DesignationPutRequest value)
+        public async Task<IResult> Put([FromBody] UpdateDesignationCommand query)
         {
-            var ret = await _designationService.UpdateAsync(value);
+            var ret = await Mediator.Send(query);
             if(ret != null) { return TypedResults.Ok(ret); }
             return null;
         }
 
         // DELETE api/<DesignationController>/5
         [HttpDelete("{id}")]
-        public async Task<IResult> Delete(Guid id)
+        public async Task<IResult> Delete(DeleteDesignationCommand query)
         {
-            _designationService.DeleteAsync(id);
+            var res = await Mediator.Send(query);
             return TypedResults.NoContent();
         }
     }

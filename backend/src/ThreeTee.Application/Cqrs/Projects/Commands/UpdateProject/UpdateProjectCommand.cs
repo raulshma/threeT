@@ -1,12 +1,5 @@
 ﻿using Mapster;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ThreeTee.Core.Entities;
 
 namespace ThreeTee.Application.Cqrs.Projects.Commands.UpdateProject;
