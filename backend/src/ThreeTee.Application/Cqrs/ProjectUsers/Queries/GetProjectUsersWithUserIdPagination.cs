@@ -27,10 +27,13 @@ public class GetProjectUsersWithUserIdPaginationQueryHandler : IRequestHandler<G
 
     public async Task<PaginatedList<ProjectUserResponse>> Handle(GetProjectUsersWithUserIdPaginationQuery request, CancellationToken cancellationToken)
     {
-        return await _context.ProjectUsers
+        var projectUser = await _context.ProjectUsers
             .Where(e=>e.UserId==request.UserId)
             // .OrderBy(pu=>pu.LastTouchedBy)
             .ProjectToType<ProjectUserResponse>()
             .PaginatedListAsync(request.PageNumber, request.PageSize);
+        if (projectUser != null)
+            return projectUser;
+        return null;
     }
 }

@@ -16,25 +16,29 @@ namespace ThreeTee.Api.Controllers
     [Authorize]
     public class ProjectUserController : ApiControllerBase
     {
-        // GET: api/<ClientController>
+        // GET: api/<ProjectUserController>
         [HttpGet]
         [Produces(typeof(List<ProjectUserResponse>))]
         public async Task<IResult> Get([FromQuery] GetProjectUsersWithPaginationQuery query)
         {
             var items = await Mediator.Send(query);
+            if (items == null)
+                return TypedResults.NotFound();
             return TypedResults.Ok(items);
         }
 
-        //GET PROJECT USER LIST api/<ClientController>
+        //GET PROJECT USER LIST api/<ProjectUserController>
         [HttpPost("{UserId}")]
         [Produces(typeof(List<ProjectUserResponse>))]
-        public async Task<IResult> Get(GetProjectUsersWithUserIdPaginationQuery query)
+        public async Task<IResult> Get([FromQuery] GetProjectUsersWithUserIdPaginationQuery query)
         {
             var items = await Mediator.Send(query);
+            if (items != null)
+                return TypedResults.NotFound();
             return TypedResults.Ok(items);
         }
 
-        // POST api/<ClientController>
+        // POST api/<ProjectUserController>
         [HttpPost]
         public async Task<IResult> Post([FromBody] CreateProjectUserCommand query)
         {
@@ -44,7 +48,7 @@ namespace ThreeTee.Api.Controllers
             return TypedResults.BadRequest();
         }
 
-        // PUT api/<ClientController>
+        // PUT api/<ProjectUserController>
         [HttpPut]
         public async Task<IResult> Put(UpdateProjectUserCommand query)
         {
@@ -52,11 +56,13 @@ namespace ThreeTee.Api.Controllers
             return TypedResults.Ok(item);
         }
 
-        // DELETE api/<ClientController>
+        // DELETE api/<ProjectUserController>
         [HttpDelete("{UserId}")]
         public async Task<IResult> Delete(DeleteProjectUserCommand query)
         {
             var item = await Mediator.Send(query);
+            if (!item)
+                return TypedResults.BadRequest();
             return TypedResults.NoContent();
         }
     }

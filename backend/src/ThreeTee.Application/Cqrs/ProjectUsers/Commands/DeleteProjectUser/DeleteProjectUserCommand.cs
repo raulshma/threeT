@@ -24,7 +24,9 @@ public class DeleteProjectUserCommandHandler : IRequestHandler<DeleteProjectUser
             return false;
 
         _context.ProjectUsers.Remove(projectUser);
-        await _context.SaveChangesAsync(cancellationToken);
+        var ret =await _context.SaveChangesAsync(cancellationToken);
+        if (ret == 0)
+            return false;
         return true;
     }
 }
