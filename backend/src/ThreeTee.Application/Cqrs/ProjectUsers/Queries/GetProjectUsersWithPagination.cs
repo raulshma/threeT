@@ -26,9 +26,12 @@ public class GetProjectUsersWithPaginationQueryHandler : IRequestHandler<GetProj
 
     public async Task<PaginatedList<ProjectUserResponse>> Handle(GetProjectUsersWithPaginationQuery request, CancellationToken cancellationToken)
     {
-        return await _context.ProjectUsers
-            // .OrderBy(pu=>pu.LastTouchedBy)
-            .ProjectToType<ProjectUserResponse>()
-            .PaginatedListAsync(request.PageNumber, request.PageSize);
+        var projectUsers = await _context.ProjectUsers
+    // .OrderBy(pu=>pu.LastTouchedBy)
+    .ProjectToType<ProjectUserResponse>()
+    .PaginatedListAsync(request.PageNumber, request.PageSize);
+        if (projectUsers != null)
+            return projectUsers;
+        return null;
     }
 }
