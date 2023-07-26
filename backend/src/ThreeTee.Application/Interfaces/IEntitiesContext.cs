@@ -13,5 +13,6 @@ public interface IEntitiesContext
     DbSet<ProjectUser> ProjectUsers { get; set; }
     DbSet<Status> Statuses { get; set; }
     DbSet<UserDepartment> UserDepartments { get; set; }
+    DbSet<DepartmentManager> DepartmentManager { get; set; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
