@@ -7,5 +7,6 @@ public class DepartmentResponse : DepartmentPostRequest
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public string? LastTouchedBy { get; set; }
+    public string? DepartmentManager { get; set; }
 }
 
