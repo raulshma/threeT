@@ -22,8 +22,8 @@ export default async function BillingTypesPage() {
     redirect(authOptions?.pages?.signIn || "/login");
   }
 
-  const items = await getBillingTypes();
-
+  const result = await getBillingTypes();
+  const items = result.items;
   const titleLowered = metadata.title.toLowerCase();
 
   return (

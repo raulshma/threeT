@@ -20,7 +20,8 @@ export default async function ClientsCreatePage() {
     redirect(authOptions?.pages?.signIn || "/login");
   }
 
-  const [billingTypes] = await Promise.all([getBillingTypes()]);
+  const result = await getBillingTypes();
+  const billingTypes = result.items;
 
   return (
     <DashboardShell>

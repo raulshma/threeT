@@ -58,6 +58,15 @@ export type AdminConfig = {
   sidebarNav: SidebarNavItem[];
 };
 
+export type PaginatedResult<T> = {
+  items: T;
+  pageNumber: number;
+  totalPages: number;
+  totalCount: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
+};
+
 export type BillingType = {
   id: string;
   name: string;

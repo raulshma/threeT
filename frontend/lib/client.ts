@@ -1,4 +1,4 @@
-import { BillingType, Client, Project } from "@/types";
+import { BillingType, Client, PaginatedResult, Project } from "@/types";
 import { getAccessToken } from "./session";
 import { getResouceUrl } from "./utils";
 
@@ -70,7 +70,7 @@ const Delete = async (path: string, id: string) => {
 };
 
 export const getBillingTypes = async () =>
-  await Get<BillingType[]>("billingtype");
+  await Get<PaginatedResult<BillingType[]>>("billingtype");
 
 export const getProjects = async () => await Get<Project[]>("project");
 export const getProject = async (id: string) =>
@@ -90,7 +90,8 @@ export const deleteClient = async (id: string) => await Delete("project", id);
 
 // Generic crud
 export const ApiClient = {
-  LIST: async <T>(resourceName: string): Promise<T> => await Get<T>(resourceName),
+  LIST: async <T>(resourceName: string): Promise<T> =>
+    await Get<T>(resourceName),
   GET: async <T>(resourceName: string, id: string): Promise<T> =>
     await Get<T>(resourceName, id),
   POST: async <T>(resourceName: string, body: T): Promise<T> =>

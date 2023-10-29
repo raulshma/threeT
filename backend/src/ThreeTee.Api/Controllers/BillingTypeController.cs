@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ThreeTee.Application.Cqrs.BillingTypes.Queries;
 using ThreeTee.Application.Cqrs.Clients.Queries;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,7 +15,7 @@ namespace ThreeTee.Api.Controllers
 
         // GET: api/<BillingTypeController>
         [HttpGet]
-        public async Task<IResult> GetAsync([FromQuery] GetClientsWithPaginationQuery query)
+        public async Task<IResult> GetAsync([FromQuery] GetBillingTypesWithPaginationQuery query)
         {
             var items = await Mediator.Send(query);
             if (items == null)
@@ -25,7 +26,7 @@ namespace ThreeTee.Api.Controllers
 
         // GET api/<BillingTypeController>/5
         [HttpGet("{id}")]
-        public async Task<IResult> Get([FromQuery] GetClientByIdQuery query)
+        public async Task<IResult> Get([FromQuery] GetBillingTypeByIdQuery query)
         {
             var item = await Mediator.Send(query);
             if (item != null)
